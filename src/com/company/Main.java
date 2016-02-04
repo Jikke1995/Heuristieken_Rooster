@@ -1,5 +1,8 @@
 package com.company;
 
 public class Main {
-    System.out.println("hello suus");
+    public static void main(String[] args) {
+        System.out.println("hello suus");
+    }
 }
+
