@@ -13,26 +13,6 @@ public class Main {
 
         // while je nog kan lezen:
         try {
-            BufferedReader Studentinfo =
-            new BufferedReader (new FileReader("resources/StudentsFile.csv"));
-            while(true) {
-                String name = Studentinfo.readLine();
-                if (name == null) break;
-                students.add(new Student(name.split(",")[0] + ", " + name.split(",")[1], name.split(",")[2]));
-            }
-            Studentinfo.close();
-        }
-
-        catch (IOException ex) {
-                System.out.println("Can't find file");
-                System.exit(1);
-        }
-
-        for (Student student : students) {
-            System.out.println(student);
-        }
-
-        try {
             BufferedReader Courseinfo =
                     new BufferedReader (new FileReader("resources/CoursesFile.csv"));
             while(true) {
@@ -48,9 +28,31 @@ public class Main {
             System.exit(1);
         }
 
-        for (Course course : courses) {
-            System.out.println(course);
+        try {
+            BufferedReader Studentinfo =
+            new BufferedReader (new FileReader("resources/StudentsFile.csv"));
+            while(true) {
+                String line = Studentinfo.readLine();
+                if (line == null) break;
+                students.add(new Student(line.split(",")[0] + ", " + line.split(",")[1], Integer.parseInt(line.split(",")[2])));
+                Student student = students.get(students.size() - 1);
+                String courseName = line.split(",")[3];
+                for (Course course : courses) {
+                    if (courseName == course.name) {
+                        student.courses.add(course);
+                        course.students.add(student);
+                    }
+                }
+            }
+            Studentinfo.close();
         }
+
+        catch (IOException ex) {
+                System.out.println("Can't find file");
+                System.exit(1);
+        }
+
+        System.out.println(students.get(1));
 
     }
 }
