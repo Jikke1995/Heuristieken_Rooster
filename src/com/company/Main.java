@@ -54,11 +54,28 @@ public class Main {
 
         System.out.println(students.get(0));
 
+        try {
+            BufferedReader Roominfo =
+                    new BufferedReader(new FileReader("resources/RoomsFile.csv"));
+            while (true) {
+                String name = Roominfo.readLine();
+                if (name == null) break;
+                rooms.add(new Room(name.split(",")[0]));
+            }
+            Roominfo.close();
+        }
+
+        catch (IOException ex) {
+            System.out.println("Can't find file");
+            System.exit(1);
+        }
+
         for(int j=0; j<5; j++) {
             for(int i=9; i <= 17; i=i+2) {
                 System.out.println(i);
-            }
+                }
         }
     }
 }
+
 
