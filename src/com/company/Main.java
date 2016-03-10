@@ -38,7 +38,7 @@ public class Main {
                 Student student = students.get(students.size() - 1);
                 String courseName = line.split(",")[3];
                 for (Course course : courses) {
-                    if (courseName == course.name) {
+                    if (courseName.equals(course.name)) {
                         student.courses.add(course);
                         course.students.add(student);
                     }
@@ -52,8 +52,13 @@ public class Main {
                 System.exit(1);
         }
 
-        System.out.println(students.get(1));
+        System.out.println(students.get(0));
 
+        for(int j=0; j<5; j++) {
+            for(int i=9; i <= 17; i=i+2) {
+                System.out.println(i);
+            }
+        }
     }
 }
 
