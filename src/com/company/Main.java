@@ -36,11 +36,14 @@ public class Main {
                 if (line == null) break;
                 students.add(new Student(line.split(",")[0] + ", " + line.split(",")[1], Integer.parseInt(line.split(",")[2])));
                 Student student = students.get(students.size() - 1);
-                String courseName = line.split(",")[3];
-                for (Course course : courses) {
-                    if (courseName.equals(course.name)) {
-                        student.courses.add(course);
-                        course.students.add(student);
+                String[] coursedata = line.split(",");
+                for(int i = 3; i < coursedata.length; i++) {
+                    String courseName = coursedata[i];
+                    for (Course course : courses) {
+                        if (courseName.equals(course.name)) {
+                            student.courses.add(course);
+                            course.students.add(student);
+                        }
                     }
                 }
             }
@@ -52,7 +55,7 @@ public class Main {
                 System.exit(1);
         }
 
-        System.out.println(students.get(0));
+        System.out.println(students.get(3));
 
         try {
             BufferedReader Roominfo =
