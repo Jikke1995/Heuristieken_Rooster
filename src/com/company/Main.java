@@ -70,11 +70,11 @@ public class Main {
             System.exit(1);
         }
 
-        for(int j=0; j<5; j++) {
-            for(int i=9; i <= 17; i=i+2) {
-                System.out.println(i);
-                }
-        }
+       for(int j=0; j<5; j++) {
+           for(int i=9; i <= 17; i=i+2) {
+               System.out.println(i);
+           }
+       }
     }
 }
 
