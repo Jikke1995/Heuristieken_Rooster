@@ -60,7 +60,7 @@ public class Main {
             while (true) {
                 String name = Roominfo.readLine();
                 if (name == null) break;
-                rooms.add(new Room(name.split(",")[0]));
+                rooms.add(new Room(name.split(",")[0], Integer.parseInt(name.split(",")[1])));
             }
             Roominfo.close();
         }
