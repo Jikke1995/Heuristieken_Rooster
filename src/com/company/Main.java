@@ -73,8 +73,13 @@ public class Main {
             System.exit(1);
         }
 
-       for(int j=0; j<5; j++) {
+
+        for(int j=0; j<5; j++) {
            for(int i=9; i <= 17; i=i+2) {
+               for(int k=0; k<=7; k++) {
+
+               }
+
                System.out.println(i);
            }
        }
