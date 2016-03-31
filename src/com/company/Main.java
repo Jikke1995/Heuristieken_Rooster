@@ -10,6 +10,7 @@ public class Main {
         ArrayList<Student> students = new ArrayList<>();
         ArrayList<Course> courses = new ArrayList<>();
         ArrayList<Room> rooms = new ArrayList<>();
+        ArrayList<RoomSlot> roomslots = new ArrayList<>();
 
         // while je nog kan lezen:
         try {
@@ -77,6 +78,7 @@ public class Main {
         for(int j=0; j<5; j++) {
            for(int i=9; i <= 17; i=i+2) {
                for(int k=0; k<=6; k++) {
+                   roomslots.add(new RoomSlot(int i, rooms.get(int k)));
                    System.out.println(i);
                    System.out.println(rooms.get(k));
                }
