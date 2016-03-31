@@ -11,6 +11,7 @@ public class Main {
         ArrayList<Course> courses = new ArrayList<>();
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<RoomSlot> roomslots = new ArrayList<>();
+        ArrayList<Activity> activities = new ArrayList<>();
 
         // while je nog kan lezen:
         try {
@@ -20,6 +21,14 @@ public class Main {
                 String name = Courseinfo.readLine();
                 if (name == null) break;
                 courses.add(new Course(name.split(",")[0]));
+                int amountHoorcolleges = Integer.parseInt(name.split(",")[1]);
+                for(int i = 0; i < amountHoorcolleges; i++) {
+                    activities.add(new Activity("hoorcollege", courses.get(courses.size() - 1), -1));
+                }
+                int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
+                for(int i = 0; i < amountWerkcolleges; i++) {
+                    activities.add(new Activity("hoorcollege", courses.get(courses.size() - 1), -1));
+                }
             }
             Courseinfo.close();
         }
@@ -74,16 +83,16 @@ public class Main {
             System.exit(1);
         }
 
-
-        for(int j=0; j<5; j++) {
+        for(int j=1; j<6; j++) {
            for(int i=9; i <= 17; i=i+2) {
                for(int k=0; k<=6; k++) {
-                   roomslots.add(new RoomSlot(int i, rooms.get(int k)));
-                   System.out.println(i);
-                   System.out.println(rooms.get(k));
+                   roomslots.add(new RoomSlot(j, i, rooms.get(k)));
+                   System.out.println(roomslots.get(roomslots.size() -1));
                }
            }
-       }
+        }
+
+
     }
 }
 
