@@ -27,7 +27,11 @@ public class Main {
                 }
                 int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
                 for(int i = 0; i < amountWerkcolleges; i++) {
-                    activities.add(new Activity("hoorcollege", courses.get(courses.size() - 1), -1));
+                    activities.add(new Activity("werkcollege", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[3])));
+                }
+                int amountPractica = Integer.parseInt(name.split(",")[4]);
+                for(int i = 0; i < amountPractica; i++) {
+                    activities.add(new Activity("practicum", courses.get(courses.size() -1), Integer.parseInt(name.split(",")[5])));
                 }
             }
             Courseinfo.close();
