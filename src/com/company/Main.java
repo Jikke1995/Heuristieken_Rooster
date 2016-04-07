@@ -136,7 +136,7 @@ public class Main {
         for (RoomSlot name: schedule.keySet()) {
             String key = name.toString();
             String value = schedule.get(name).toString();
-            System.out.println(key + "" + value);
+            System.out.println(key + " = " + value);
         }
     }
 }
