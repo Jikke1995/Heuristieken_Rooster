@@ -24,16 +24,17 @@ public class Main {
                 int amountHoorcolleges = Integer.parseInt(name.split(",")[1]);
                 for(int i = 0; i < amountHoorcolleges; i++) {
                     activities.add(new Activity("hoorcollege", courses.get(courses.size() - 1), -1));
-                    int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
-                    for (int j = 0; j < amountWerkcolleges; j++) {
-                        activities.add(new Activity("werkcollege", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[3])));
-
-                        int amountPractica = Integer.parseInt(name.split(",")[4]);
-                        for (int k = 0; k < amountPractica; k++) {
-                            activities.add(new Activity("practicum", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[5])));
-                        }
-                    }
                 }
+                int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
+                for (int j = 0; j < amountWerkcolleges; j++) {
+                    activities.add(new Activity("werkcollege", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[3])));
+                }
+                int amountPractica = Integer.parseInt(name.split(",")[4]);
+                for (int k = 0; k < amountPractica; k++) {
+                    activities.add(new Activity("practicum", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[5])));
+                }
+
+
                 System.out.println(activities);
             }
             Courseinfo.close();
@@ -100,6 +101,4 @@ public class Main {
 
     }
 }
-
-L
 
