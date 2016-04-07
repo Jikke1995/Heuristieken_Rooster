@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Main {
@@ -13,7 +14,6 @@ public class Main {
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<RoomSlot> roomslots = new ArrayList<>();
         ArrayList<Activity> activities = new ArrayList<>();
-        Random rgen = new Random();
 
         // while je nog kan lezen:
         try {
@@ -99,6 +99,20 @@ public class Main {
            }
         }
 
+        randomSchedule(roomslots, activities);
+    }
+
+    public static void randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
+        Random rgen = new Random();
+        HashMap<RoomSlot, Activity> schedule = new HashMap<>();
+        while(activities.size() >= 0) {
+            int indexActivity = rgen.nextInt(activities.size());
+            int indexRoomSlot = rgen.nextInt(roomslots.size());
+            schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
+            activities.remove(indexActivity);
+            roomslots.remove(indexRoomSlot);
+        }
+        System.out.println(schedule);
     }
 }
 
