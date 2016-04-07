@@ -1,5 +1,6 @@
 package com.company;
 
+// maakt class Activity aan die een het type activiteit het vak en de capacity opslaat
 public class Activity {
     String typeActivity;
     Course course;
@@ -11,6 +12,7 @@ public class Activity {
         this.capacity = capacity;
     }
 
+    // past aan wat moet worden uitgeprint
     public String toString() {
         return "activity: " + typeActivity + ", " + course + ", " + capacity;
     }
