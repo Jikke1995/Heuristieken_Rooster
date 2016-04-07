@@ -46,6 +46,8 @@ public class Main {
                 }
             }
             System.out.println(activities);
+            System.out.println(activities.get(0));
+            System.out.println(activities.size());
             Courseinfo.close();
         }
 
@@ -89,8 +91,6 @@ public class Main {
                 System.exit(1);
         }
 
-        System.out.println(students.get(3));
-
         // while je nog kan lezen
         try {
             // lees de RoomsFile in
@@ -120,10 +120,7 @@ public class Main {
            }
         }
 
-        System.out.println(roomslots.get(3));
-
-        System.out.println("amount activities: " + activities.size());
-        randomSchedule(roomslots, activities);
+        //randomSchedule(roomslots, activities);
     }
 
     public static void randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
@@ -136,7 +133,5 @@ public class Main {
             activities.remove(indexActivity);
             roomslots.remove(indexRoomSlot);
         }
-        System.out.println(schedule);
     }
 }
-
