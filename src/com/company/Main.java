@@ -116,11 +116,13 @@ public class Main {
            for(int i=9; i <= 17; i=i+2) {
                for(int k=0; k<=6; k++) {
                    roomslots.add(new RoomSlot(j, i, rooms.get(k)));
-                   System.out.println(roomslots.get(roomslots.size() -1));
                }
            }
         }
 
+        System.out.println(roomslots.get(3));
+
+        System.out.println("amount activities: " + activities.size());
         randomSchedule(roomslots, activities);
     }
 
