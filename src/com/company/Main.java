@@ -120,18 +120,19 @@ public class Main {
            }
         }
 
-        //randomSchedule(roomslots, activities);
+        randomSchedule(roomslots, activities);
     }
 
     public static void randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
         Random rgen = new Random();
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
-        while(activities.size() >= 0) {
+        while(activities.size() > 0) {
             int indexActivity = rgen.nextInt(activities.size());
             int indexRoomSlot = rgen.nextInt(roomslots.size());
             schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
             activities.remove(indexActivity);
             roomslots.remove(indexRoomSlot);
         }
+        System.out.println(schedule);
     }
 }
