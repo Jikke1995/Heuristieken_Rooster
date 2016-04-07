@@ -133,6 +133,10 @@ public class Main {
             activities.remove(indexActivity);
             roomslots.remove(indexRoomSlot);
         }
-        System.out.println(schedule);
+        for (RoomSlot name: schedule.keySet()) {
+            String key = name.toString();
+            String value = schedule.get(name).toString();
+            System.out.println(key + "" + value);
+        }
     }
 }
