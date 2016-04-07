@@ -33,10 +33,8 @@ public class Main {
                 for (int k = 0; k < amountPractica; k++) {
                     activities.add(new Activity("practicum", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[5])));
                 }
-
-
-                System.out.println(activities);
             }
+            System.out.println(activities);
             Courseinfo.close();
         }
 
