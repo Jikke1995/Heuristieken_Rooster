@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
+        // creeërt arraylists
         ArrayList<Student> students = new ArrayList<>();
         ArrayList<Course> courses = new ArrayList<>();
         ArrayList<Room> rooms = new ArrayList<>();
@@ -15,20 +16,28 @@ public class Main {
 
         // while je nog kan lezen:
         try {
+            // lees de CoursesFile in
             BufferedReader Courseinfo =
                     new BufferedReader (new FileReader("resources/CoursesFile.csv"));
             while(true) {
+                // lees de volgende regel uit de CoursesFile in
                 String name = Courseinfo.readLine();
                 if (name == null) break;
+                // voegt course toe aan de lijst van courses
                 courses.add(new Course(name.split(",")[0]));
+                // kijkt hoe veel hoorcolleges/werkcolleges/practica er van de desbetreffende course moet worden gegeven, en voegt
+                // voor elk college een activity toe aan de lijst van colleges, samen met de maximale hoeveelheid studenten per activity.
+                    //hoorcolleges
                 int amountHoorcolleges = Integer.parseInt(name.split(",")[1]);
                 for(int i = 0; i < amountHoorcolleges; i++) {
                     activities.add(new Activity("hoorcollege", courses.get(courses.size() - 1), -1));
                 }
+                    // werkcolleges
                 int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
                 for (int j = 0; j < amountWerkcolleges; j++) {
                     activities.add(new Activity("werkcollege", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[3])));
                 }
+                    //practica
                 int amountPractica = Integer.parseInt(name.split(",")[4]);
                 for (int k = 0; k < amountPractica; k++) {
                     activities.add(new Activity("practicum", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[5])));
@@ -43,18 +52,26 @@ public class Main {
             System.exit(1);
         }
 
+        //while je nog kan lezen
         try {
+            // lees de StudentFile in
             BufferedReader Studentinfo =
             new BufferedReader (new FileReader("resources/StudentsFile.csv"));
             while(true) {
+                // lees volgende regel uit de StudentFile in
                 String line = Studentinfo.readLine();
                 if (line == null) break;
+                // voegt naam van student en studentnummer toe aan lijst van studenten
                 students.add(new Student(line.split(",")[0] + ", " + line.split(",")[1], Integer.parseInt(line.split(",")[2])));
                 Student student = students.get(students.size() - 1);
+                // haalt de vakken op die de student volgt
                 String[] coursedata = line.split(",");
+                // voor elk vak dat de student volgt
                 for(int i = 3; i < coursedata.length; i++) {
                     String courseName = coursedata[i];
+                    // zoek het vak uit de lijst van courses dat het desbetreffende vak equals
                     for (Course course : courses) {
+                        // voeg het vak aan de student toe en het student aan het vak
                         if (courseName.equals(course.name)) {
                             student.courses.add(course);
                             course.students.add(student);
@@ -72,12 +89,16 @@ public class Main {
 
         System.out.println(students.get(3));
 
+        // while je nog kan lezen
         try {
+            // lees de RoomsFile in
             BufferedReader Roominfo =
                     new BufferedReader(new FileReader("resources/RoomsFile.csv"));
             while (true) {
+                // lees volgende regel uit de RoomsFile in
                 String name = Roominfo.readLine();
                 if (name == null) break;
+                // voeg room en capacity toe aan het de lijst met rooms
                 rooms.add(new Room(name.split(",")[0], Integer.parseInt(name.split(",")[1])));
             }
             Roominfo.close();
@@ -88,6 +109,7 @@ public class Main {
             System.exit(1);
         }
 
+        // creeërt een lijst met elke mogelijke roomsslot
         for(int j=1; j<6; j++) {
            for(int i=9; i <= 17; i=i+2) {
                for(int k=0; k<=6; k++) {
