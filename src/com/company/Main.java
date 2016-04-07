@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +13,7 @@ public class Main {
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<RoomSlot> roomslots = new ArrayList<>();
         ArrayList<Activity> activities = new ArrayList<>();
+        Random rgen = new Random();
 
         // while je nog kan lezen:
         try {
