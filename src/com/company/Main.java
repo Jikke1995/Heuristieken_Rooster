@@ -27,27 +27,7 @@ public class Main {
                 if (name == null) break;
                 // voegt course toe aan de lijst van courses
                 courses.add(new Course(name.split(",")[0]));
-                // kijkt hoe veel hoorcolleges/werkcolleges/practica er van de desbetreffende course moet worden gegeven, en voegt
-                // voor elk college een activity toe aan de lijst van colleges, samen met de maximale hoeveelheid studenten per activity.
-                    //hoorcolleges
-                int amountHoorcolleges = Integer.parseInt(name.split(",")[1]);
-                for(int i = 0; i < amountHoorcolleges; i++) {
-                    activities.add(new Activity("hoorcollege", courses.get(courses.size() - 1), -1));
-                }
-                    // werkcolleges
-                int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
-                for (int j = 0; j < amountWerkcolleges; j++) {
-                    activities.add(new Activity("werkcollege", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[3])));
-                }
-                    //practica
-                int amountPractica = Integer.parseInt(name.split(",")[4]);
-                for (int k = 0; k < amountPractica; k++) {
-                    activities.add(new Activity("practicum", courses.get(courses.size() - 1), Integer.parseInt(name.split(",")[5])));
-                }
             }
-            System.out.println(activities);
-            System.out.println(activities.get(0));
-            System.out.println(activities.size());
             Courseinfo.close();
         }
 
@@ -85,10 +65,54 @@ public class Main {
             }
             Studentinfo.close();
         }
-
         catch (IOException ex) {
                 System.out.println("Can't find file");
                 System.exit(1);
+        }
+
+        try {
+            // lees de CoursesFile in
+            BufferedReader Courseinfo =
+                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
+            int regelInCourses = 0;
+            while (true) {
+                // lees de volgende regel uit de CoursesFile in
+                String name = Courseinfo.readLine();
+                if (name == null) break;
+                // kijkt hoe veel hoorcolleges/werkcolleges/practica er van de desbetreffende course moet worden gegeven, en voegt
+                // voor elk college een activity toe aan de lijst van colleges, samen met de maximale hoeveelheid studenten per activity.
+                //hoorcolleges
+                int amountHoorcolleges = Integer.parseInt(name.split(",")[1]);
+                for (int i = 0; i < amountHoorcolleges; i++) {
+                    activities.add(new Activity("hoorcollege", courses.get(regelInCourses), -1));
+                }
+                Course course = courses.get(regelInCourses);
+                // werkcolleges
+                int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
+                int capacityWerkcolleges = Integer.parseInt(name.split(",")[3]);
+                int amountOfStudentsWerkcollege = course.students.size();
+                int werkcollegeMultiplier = (int)Math.ceil(((double) amountOfStudentsWerkcollege)/capacityWerkcolleges);
+                for (int j = 0; j < (amountWerkcolleges*werkcollegeMultiplier); j++) {
+                    activities.add(new Activity("werkcollege", courses.get(regelInCourses), Integer.parseInt(name.split(",")[3])));
+                }
+                //practica
+                int amountPractica = Integer.parseInt(name.split(",")[4]);
+                int capacityPractica = Integer.parseInt(name.split(",")[5]);
+                int amountOfStudentsPractica = course.students.size();
+                int practicaMultiplier = (int)Math.ceil(((double) amountOfStudentsPractica)/capacityPractica);
+                for (int k = 0; k < amountPractica*practicaMultiplier; k++) {
+                    activities.add(new Activity("practicum", courses.get(regelInCourses), Integer.parseInt(name.split(",")[5])));
+                }
+                regelInCourses = regelInCourses + 1;
+            }
+            System.out.println(activities);
+            System.out.println(activities.size());
+            Course course = courses.get(4);
+            System.out.println(course.students.size());
+        }
+        catch (IOException ex) {
+            System.out.println("Can't find file");
+            System.exit(1);
         }
 
         // while je nog kan lezen
