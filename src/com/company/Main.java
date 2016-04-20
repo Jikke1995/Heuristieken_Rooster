@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        // creeërt arraylists
+        // Creëeren Arraylists
         ArrayList<Student> students = new ArrayList<>();
         ArrayList<Course> courses = new ArrayList<>();
         ArrayList<Room> rooms = new ArrayList<>();
@@ -135,7 +135,7 @@ public class Main {
             System.exit(1);
         }
 
-        // creeërt een lijst met elke mogelijke roomsslot
+        // Creëert een lijst met elk mogelijke roomsslot
         for(int j=1; j<6; j++) {
            for(int i=9; i <= 17; i=i+2) {
                for(int k=0; k<=6; k++) {
@@ -162,5 +162,8 @@ public class Main {
             String value = schedule.get(name).toString();
             System.out.println(key + " = " + value);
         }
+    }
+
+    public static void scoreFunction {
     }
 }
