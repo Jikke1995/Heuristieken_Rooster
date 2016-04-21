@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.jar.Pack200;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,7 +27,10 @@ public class Main {
                 String name = Courseinfo.readLine();
                 if (name == null) break;
                 // voegt course toe aan de lijst van courses
-                courses.add(new Course(name.split(",")[0]));
+                courses.add(new Course(name.split(",")[0],
+                        Integer.parseInt(name.split(",")[1]),
+                        Integer.parseInt(name.split(",")[2]),
+                        Integer.parseInt(name.split(",")[4])));
             }
             Courseinfo.close();
         }
@@ -144,11 +148,15 @@ public class Main {
            }
         }
 
-        randomSchedule(roomslots, activities);
+        randomSchedule(roomslots, (ArrayList<Activity>)activities.clone());
+        indelenStudentenWerkcolleges(activities, students, courses);
+        indelenStudentenPractica(activities, students, courses);
 
-        int score = 1000;
-        String name = Room;
-        int capicityRoom = Integer.parseInt(name.split(",")[1]);
+
+        // Begin stuk scorefunctie, moet in aparte void.
+        //int score = 1000;
+        //String name = Room;
+        //int capicityRoom = Integer.parseInt(name.split(",")[1]);
 
 
     }
@@ -170,32 +178,60 @@ public class Main {
         }
     }
 
-    public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Room> rooms) {
+    public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> werkcolleges = new ArrayList<>();
-        int capacityWerkcollege =
         for(Activity activity : activities) {
             if(activity.typeActivity.equals("werkcollege")) {
                 werkcolleges.add(activity);
             }
         }
-        for(Student student : students) {
-            for(Activity werkcollege : werkcolleges) {
-
+        for(Course course : courses) {
+            for(Student student : students) {
+                if(student.courses.contains(course)) {
+                    int gevolgdeWerkcolleges = 0;
+                    for(Activity werkcollege : werkcolleges) {
+                        if (werkcollege.course.equals(course)) {
+                            if(werkcollege.students.size() < werkcollege.capacity) {
+                                werkcollege.students.add(student);
+                                gevolgdeWerkcolleges += 1;
+                                if(gevolgdeWerkcolleges > course.amountWerkcolleges) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+        System.out.println(werkcolleges.get(2).students);
     }
 
-    public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students) {
+    public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> practica = new ArrayList<>();
         for(Activity activity : activities) {
             if(activity.typeActivity.equals("practicum")) {
                 practica.add(activity);
             }
         }
-        for(Student student : students) {
-            for(Activity practicum : practica) {
-
+        for(Course course : courses) {
+            for(Student student : students) {
+                if(student.courses.contains(course)) {
+                    int gevolgdePractica = 0;
+                    for(Activity practicum : practica) {
+                        if (practicum.course.equals(course)) {
+                            if(practicum.students.size() < practicum.capacity) {
+                                practicum.students.add(student);
+                                gevolgdePractica += 1;
+                                if(gevolgdePractica > course.amountPractica) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+        System.out.println(practica.get(2).students);
+
     }
 }
