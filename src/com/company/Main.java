@@ -145,6 +145,12 @@ public class Main {
         }
 
         randomSchedule(roomslots, activities);
+
+        int score = 1000;
+        String name = Room;
+        int capicityRoom = Integer.parseInt(name.split(",")[1]);
+
+
     }
 
     public static void randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
@@ -164,6 +170,32 @@ public class Main {
         }
     }
 
-    public static void scoreFunction {
+    public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Room> rooms) {
+        ArrayList<Activity> werkcolleges = new ArrayList<>();
+        int capacityWerkcollege =
+        for(Activity activity : activities) {
+            if(activity.typeActivity.equals("werkcollege")) {
+                werkcolleges.add(activity);
+            }
+        }
+        for(Student student : students) {
+            for(Activity werkcollege : werkcolleges) {
+
+            }
+        }
+    }
+
+    public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students) {
+        ArrayList<Activity> practica = new ArrayList<>();
+        for(Activity activity : activities) {
+            if(activity.typeActivity.equals("practicum")) {
+                practica.add(activity);
+            }
+        }
+        for(Student student : students) {
+            for(Activity practicum : practica) {
+
+            }
+        }
     }
 }
