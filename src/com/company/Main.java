@@ -262,7 +262,27 @@ public class Main {
                 score = score - studentsOverCapacity;
             }
         }
+        for (RoomSlot roomslot : schedule.keySet()) {
+            for (RoomSlot  otherRoomslot : schedule.keySet()) {
+                if(roomslot == otherRoomslot) {
+                    break;
+                }
+                if(roomslot.day == otherRoomslot.day && roomslot.time == otherRoomslot.time) {
+                    ArrayList<Student> students = schedule.get(roomslot).students;
+                    ArrayList<Student> otherStudents = schedule.get(otherRoomslot).students;
+                    System.out.println(score);
+                    for (Student student : students) {
+                        if (otherStudents.contains(student)) {
 
+                            score = score - 1;
+                        }
+                    }
+                    System.out.println(score);
+                    System.out.println(students);
+                    System.out.println(otherStudents);
+                }
+            }
+        }
         return score;
     }
 }
