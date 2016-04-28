@@ -21,8 +21,8 @@ public class Main {
         try {
             // lees de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader (new FileReader("resources/CoursesFile.csv"));
-            while(true) {
+                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
+            while (true) {
                 // lees de volgende regel uit de CoursesFile in
                 String name = Courseinfo.readLine();
                 if (name == null) break;
@@ -33,9 +33,7 @@ public class Main {
                         Integer.parseInt(name.split(",")[4])));
             }
             Courseinfo.close();
-        }
-
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println("Can't find file");
             System.exit(1);
         }
@@ -44,8 +42,8 @@ public class Main {
         try {
             // lees de StudentFile in
             BufferedReader Studentinfo =
-            new BufferedReader (new FileReader("resources/StudentsFile.csv"));
-            while(true) {
+                    new BufferedReader(new FileReader("resources/StudentsFile.csv"));
+            while (true) {
                 // lees volgende regel uit de StudentFile in
                 String line = Studentinfo.readLine();
                 if (line == null) break;
@@ -55,7 +53,7 @@ public class Main {
                 // haalt de vakken op die de student volgt
                 String[] coursedata = line.split(",");
                 // voor elk vak dat de student volgt
-                for(int i = 3; i < coursedata.length; i++) {
+                for (int i = 3; i < coursedata.length; i++) {
                     String courseName = coursedata[i];
                     // zoek het vak uit de lijst van courses dat het desbetreffende vak equals
                     for (Course course : courses) {
@@ -68,10 +66,9 @@ public class Main {
                 }
             }
             Studentinfo.close();
-        }
-        catch (IOException ex) {
-                System.out.println("Can't find file");
-                System.exit(1);
+        } catch (IOException ex) {
+            System.out.println("Can't find file");
+            System.exit(1);
         }
 
         try {
@@ -95,16 +92,16 @@ public class Main {
                 int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
                 int capacityWerkcolleges = Integer.parseInt(name.split(",")[3]);
                 int amountOfStudentsWerkcollege = course.students.size();
-                int werkcollegeMultiplier = (int)Math.ceil(((double) amountOfStudentsWerkcollege)/capacityWerkcolleges);
-                for (int j = 0; j < (amountWerkcolleges*werkcollegeMultiplier); j++) {
+                int werkcollegeMultiplier = (int) Math.ceil(((double) amountOfStudentsWerkcollege) / capacityWerkcolleges);
+                for (int j = 0; j < (amountWerkcolleges * werkcollegeMultiplier); j++) {
                     activities.add(new Activity("werkcollege", courses.get(regelInCourses), Integer.parseInt(name.split(",")[3])));
                 }
                 //practica
                 int amountPractica = Integer.parseInt(name.split(",")[4]);
                 int capacityPractica = Integer.parseInt(name.split(",")[5]);
                 int amountOfStudentsPractica = course.students.size();
-                int practicaMultiplier = (int)Math.ceil(((double) amountOfStudentsPractica)/capacityPractica);
-                for (int k = 0; k < amountPractica*practicaMultiplier; k++) {
+                int practicaMultiplier = (int) Math.ceil(((double) amountOfStudentsPractica) / capacityPractica);
+                for (int k = 0; k < amountPractica * practicaMultiplier; k++) {
                     activities.add(new Activity("practicum", courses.get(regelInCourses), Integer.parseInt(name.split(",")[5])));
                 }
                 regelInCourses = regelInCourses + 1;
@@ -113,8 +110,7 @@ public class Main {
             System.out.println(activities.size());
             Course course = courses.get(4);
             System.out.println(course.students.size());
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println("Can't find file");
             System.exit(1);
         }
@@ -132,26 +128,26 @@ public class Main {
                 rooms.add(new Room(name.split(",")[0], Integer.parseInt(name.split(",")[1])));
             }
             Roominfo.close();
-        }
-
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println("Can't find file");
             System.exit(1);
         }
 
         // Creëert een lijst met elk mogelijke roomsslot
-        for(int j=1; j<6; j++) {
-           for(int i=9; i <= 17; i=i+2) {
-               for(int k=0; k<=6; k++) {
-                   roomslots.add(new RoomSlot(j, i, rooms.get(k)));
-               }
-           }
+        for (int j = 1; j < 6; j++) {
+            for (int i = 9; i <= 17; i = i + 2) {
+                for (int k = 0; k <= 6; k++) {
+                    roomslots.add(new RoomSlot(j, i, rooms.get(k)));
+                }
+            }
         }
 
-        randomSchedule(roomslots, (ArrayList<Activity>)activities.clone());
         indelenStudentenWerkcolleges(activities, students, courses);
         indelenStudentenPractica(activities, students, courses);
-
+        indelenStudentenHoorcolleges(activities, students, courses);
+        HashMap<RoomSlot, Activity> schedule = randomSchedule(roomslots, (ArrayList<Activity>) activities.clone());
+        System.out.println(score(schedule));
+        System.out.println(rooms);
 
         // Begin stuk scorefunctie, moet in aparte void.
         //int score = 1000;
@@ -161,40 +157,41 @@ public class Main {
 
     }
 
-    public static void randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
+    public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
         Random rgen = new Random();
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
-        while(activities.size() > 0) {
+        while (activities.size() > 0) {
             int indexActivity = rgen.nextInt(activities.size());
             int indexRoomSlot = rgen.nextInt(roomslots.size());
             schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
             activities.remove(indexActivity);
             roomslots.remove(indexRoomSlot);
         }
-        for (RoomSlot name: schedule.keySet()) {
+        for (RoomSlot name : schedule.keySet()) {
             String key = name.toString();
             String value = schedule.get(name).toString();
             System.out.println(key + " = " + value);
         }
+        return schedule;
     }
 
     public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> werkcolleges = new ArrayList<>();
-        for(Activity activity : activities) {
-            if(activity.typeActivity.equals("werkcollege")) {
+        for (Activity activity : activities) {
+            if (activity.typeActivity.equals("werkcollege")) {
                 werkcolleges.add(activity);
             }
         }
-        for(Course course : courses) {
-            for(Student student : students) {
-                if(student.courses.contains(course)) {
+        for (Course course : courses) {
+            for (Student student : students) {
+                if (student.courses.contains(course)) {
                     int gevolgdeWerkcolleges = 0;
-                    for(Activity werkcollege : werkcolleges) {
+                    for (Activity werkcollege : werkcolleges) {
                         if (werkcollege.course.equals(course)) {
-                            if(werkcollege.students.size() < werkcollege.capacity) {
+                            if (werkcollege.students.size() < werkcollege.capacity) {
                                 werkcollege.students.add(student);
                                 gevolgdeWerkcolleges += 1;
-                                if(gevolgdeWerkcolleges > course.amountWerkcolleges) {
+                                if (gevolgdeWerkcolleges > course.amountWerkcolleges) {
                                     break;
                                 }
                             }
@@ -208,21 +205,21 @@ public class Main {
 
     public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> practica = new ArrayList<>();
-        for(Activity activity : activities) {
-            if(activity.typeActivity.equals("practicum")) {
+        for (Activity activity : activities) {
+            if (activity.typeActivity.equals("practicum")) {
                 practica.add(activity);
             }
         }
-        for(Course course : courses) {
-            for(Student student : students) {
-                if(student.courses.contains(course)) {
+        for (Course course : courses) {
+            for (Student student : students) {
+                if (student.courses.contains(course)) {
                     int gevolgdePractica = 0;
-                    for(Activity practicum : practica) {
+                    for (Activity practicum : practica) {
                         if (practicum.course.equals(course)) {
-                            if(practicum.students.size() < practicum.capacity) {
+                            if (practicum.students.size() < practicum.capacity) {
                                 practicum.students.add(student);
                                 gevolgdePractica += 1;
-                                if(gevolgdePractica > course.amountPractica) {
+                                if (gevolgdePractica > course.amountPractica) {
                                     break;
                                 }
                             }
@@ -232,6 +229,40 @@ public class Main {
             }
         }
         System.out.println(practica.get(2).students);
+    }
 
+    public static void indelenStudentenHoorcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
+        ArrayList<Activity> hoorcolleges = new ArrayList<>();
+        for (Activity activity : activities) {
+            if (activity.typeActivity.equals("hoorcollege")) {
+                hoorcolleges.add(activity);
+            }
+        }
+        for (Course course : courses) {
+            for (Student student : students) {
+                if (student.courses.contains(course)) {
+                    for (Activity hoorcollege : hoorcolleges) {
+                        if (hoorcollege.course.equals(course)) {
+                            hoorcollege.students.add(student);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println(hoorcolleges.get(2).students);
+    }
+
+    public static int score(HashMap<RoomSlot, Activity> schedule) {
+        int score = 1000;
+        for (RoomSlot roomslot : schedule.keySet()) {
+            Activity activity = schedule.get(roomslot);
+            if (activity.students.size() > roomslot.room.capacity) {
+                int studentsOverCapacity = activity.students.size() - roomslot.room.capacity;
+                score = score - studentsOverCapacity;
+            }
+        }
+
+        return score;
     }
 }
