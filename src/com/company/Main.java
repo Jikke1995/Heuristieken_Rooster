@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.jar.Pack200;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,14 +18,14 @@ public class Main {
 
         // while je nog kan lezen:
         try {
-            // lees de CoursesFile in
+            // Leest de CoursesFile in
             BufferedReader Courseinfo =
                     new BufferedReader(new FileReader("resources/CoursesFile.csv"));
             while (true) {
-                // lees de volgende regel uit de CoursesFile in
+                // Leest de volgende regel uit de CoursesFile in
                 String name = Courseinfo.readLine();
                 if (name == null) break;
-                // voegt course toe aan de lijst van courses
+                // Voegt course toe aan de lijst van courses
                 courses.add(new Course(name.split(",")[0],
                         Integer.parseInt(name.split(",")[1]),
                         Integer.parseInt(name.split(",")[2]),
@@ -254,6 +253,7 @@ public class Main {
     }
 
     public static int score(HashMap<RoomSlot, Activity> schedule) {
+        // Stelt basisscore op 1000
         int score = 1000;
         for (RoomSlot roomslot : schedule.keySet()) {
             Activity activity = schedule.get(roomslot);
@@ -282,6 +282,9 @@ public class Main {
                     System.out.println(otherStudents);
                 }
             }
+        }
+        for (RoomSlot roomslot : schedule.keySet()) {
+
         }
         return score;
     }
