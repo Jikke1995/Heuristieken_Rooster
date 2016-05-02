@@ -257,7 +257,7 @@ public class Main {
         System.out.println(hoorcolleges.get(2).students);
     }
 
-    public static int score(HashMap<RoomSlot, Activity> schedule) {
+    public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
         int score = 1000;
         for (RoomSlot roomslot : schedule.keySet()) {
@@ -285,15 +285,22 @@ public class Main {
                 }
             }
         }
+        System.out.println(score);
         for(RoomSlot roomslot : schedule.keySet()) {
             if(roomslot.time == 17) {
                 score = score - 50;
             }
         }
-        for(RoomSlot roomslot : schedule.keySet()) {
+        for(Course course : courses) {
+            for(RoomSlot roomslot : schedule.keySet()) {
+                Activity activity = schedule.get(roomslot);
+                if(activity.course == course) {
 
+                }
+            }
 
         }
+
         return score;
     }
 }
