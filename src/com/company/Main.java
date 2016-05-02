@@ -134,12 +134,14 @@ public class Main {
 
         // Creëert een lijst met elk mogelijke roomsslot
         for (int j = 1; j < 6; j++) {
-            for (int i = 9; i <= 17; i = i + 2) {
+            for (int i = 9; i <= 15; i = i + 2) {
                 for (int k = 0; k <= 6; k++) {
                     roomslots.add(new RoomSlot(j, i, rooms.get(k)));
                 }
             }
+            roomslots.add(new RoomSlot(j, 17, rooms.get(5)));
         }
+
 
         indelenStudentenWerkcolleges(activities, students, courses);
         indelenStudentenPractica(activities, students, courses);
@@ -270,16 +272,13 @@ public class Main {
                 if(roomslot.day == otherRoomslot.day && roomslot.time == otherRoomslot.time) {
                     ArrayList<Student> students = schedule.get(roomslot).students;
                     ArrayList<Student> otherStudents = schedule.get(otherRoomslot).students;
-                    System.out.println(score);
                     for (Student student : students) {
                         if (otherStudents.contains(student)) {
-
                             score = score - 1;
                         }
                     }
-                    System.out.println(score);
-                    System.out.println(students);
-                    System.out.println(otherStudents);
+                    //System.out.println(students);
+                    //System.out.println(otherStudents);
                 }
             }
         }
