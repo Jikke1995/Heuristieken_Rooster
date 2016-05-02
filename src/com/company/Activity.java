@@ -8,16 +8,18 @@ public class Activity {
     Course course;
     int capacity;
     ArrayList<Student> students;
+    int number;
 
-    public Activity (String typeActivity, Course course, int capacity) {
+    public Activity (String typeActivity, Course course, int capacity, int number) {
         this.typeActivity = typeActivity;
         this.course = course;
         this.capacity = capacity;
         this.students = new ArrayList<>();
+        this.number = number;
     }
 
     // past aan wat moet worden uitgeprint
     public String toString() {
-        return "activity: " + typeActivity + ", " + course + ", " + capacity;
+        return "activity: " + typeActivity + " " + number + ", " + course;
     }
 }

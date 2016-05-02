@@ -84,7 +84,7 @@ public class Main {
                 //hoorcolleges
                 int amountHoorcolleges = Integer.parseInt(name.split(",")[1]);
                 for (int i = 0; i < amountHoorcolleges; i++) {
-                    activities.add(new Activity("hoorcollege", courses.get(regelInCourses), -1));
+                    activities.add(new Activity("hoorcollege", courses.get(regelInCourses), -1, i));
                 }
                 Course course = courses.get(regelInCourses);
                 // werkcolleges
@@ -92,16 +92,20 @@ public class Main {
                 int capacityWerkcolleges = Integer.parseInt(name.split(",")[3]);
                 int amountOfStudentsWerkcollege = course.students.size();
                 int werkcollegeMultiplier = (int) Math.ceil(((double) amountOfStudentsWerkcollege) / capacityWerkcolleges);
-                for (int j = 0; j < (amountWerkcolleges * werkcollegeMultiplier); j++) {
-                    activities.add(new Activity("werkcollege", courses.get(regelInCourses), Integer.parseInt(name.split(",")[3])));
+                for (int j = 0; j < amountWerkcolleges; j++) {
+                    for (int i = 0; i < werkcollegeMultiplier; i++) {
+                        activities.add(new Activity("werkcollege", courses.get(regelInCourses), Integer.parseInt(name.split(",")[3]), i));
+                    }
                 }
                 //practica
                 int amountPractica = Integer.parseInt(name.split(",")[4]);
                 int capacityPractica = Integer.parseInt(name.split(",")[5]);
                 int amountOfStudentsPractica = course.students.size();
                 int practicaMultiplier = (int) Math.ceil(((double) amountOfStudentsPractica) / capacityPractica);
-                for (int k = 0; k < amountPractica * practicaMultiplier; k++) {
-                    activities.add(new Activity("practicum", courses.get(regelInCourses), Integer.parseInt(name.split(",")[5])));
+                for (int k = 0; k < amountPractica; k++) {
+                    for (int i = 0; i < practicaMultiplier; i++) {
+                        activities.add(new Activity("practicum", courses.get(regelInCourses), Integer.parseInt(name.split(",")[5]), i));
+                    }
                 }
                 regelInCourses = regelInCourses + 1;
             }
@@ -148,7 +152,6 @@ public class Main {
         indelenStudentenHoorcolleges(activities, students, courses);
         HashMap<RoomSlot, Activity> schedule = randomSchedule(roomslots, (ArrayList<Activity>) activities.clone());
         System.out.println(score(schedule));
-        System.out.println(rooms);
 
         // Begin stuk scorefunctie, moet in aparte void.
         //int score = 1000;
@@ -282,7 +285,13 @@ public class Main {
                 }
             }
         }
-        for (RoomSlot roomslot : schedule.keySet()) {
+        for(RoomSlot roomslot : schedule.keySet()) {
+            if(roomslot.time == 17) {
+                score = score - 50;
+            }
+        }
+        for(RoomSlot roomslot : schedule.keySet()) {
+
 
         }
         return score;
