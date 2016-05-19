@@ -109,10 +109,6 @@ public class Main {
                 }
                 regelInCourses = regelInCourses + 1;
             }
-            System.out.println(activities);
-            System.out.println(activities.size());
-            Course course = courses.get(4);
-            System.out.println(course.students.size());
         } catch (IOException ex) {
             System.out.println("Can't find file");
             System.exit(1);
@@ -151,15 +147,24 @@ public class Main {
         indelenStudentenPractica(activities, students, courses);
         indelenStudentenHoorcolleges(activities, students, courses);
 
+        int bestScore = 0;
+        HashMap<RoomSlot, Activity> bestSchedule = null;
+        for (int i = 0; i < 2; i++) {
+            HashMap<RoomSlot, Activity> newSchedule = randomSchedule(roomslots, activities);
+            int newScore = score(newSchedule, courses);
+            if (newScore > bestScore) {
+                bestScore = newScore;
+                bestSchedule = newSchedule;
+            }
+            System.out.println(newScore);
+            for (RoomSlot name : newSchedule.keySet()) {
+                String key = name.toString();
+                String value = newSchedule.get(name).toString();
+                System.out.println(key + " = " + value);
+            }
 
-        HashMap<RoomSlot, Activity> schedule = randomSchedule(roomslots, (ArrayList<Activity>) activities.clone());
-
-        System.out.println(score(schedule, courses));
-
-        // Begin stuk scorefunctie, moet in aparte void.
-        //int score = 1000;
-        //String name = Room;
-        //int capicityRoom = Integer.parseInt(name.split(",")[1]);
+        }
+    // bestSchedule opslaan
 
 
     }
@@ -168,17 +173,14 @@ public class Main {
     public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
         Random rgen = new Random();
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
-        while (activities.size() > 0) {
-            int indexActivity = rgen.nextInt(activities.size());
-            int indexRoomSlot = rgen.nextInt(roomslots.size());
-            schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
-            activities.remove(indexActivity);
-            roomslots.remove(indexRoomSlot);
-        }
-        for (RoomSlot name : schedule.keySet()) {
-            String key = name.toString();
-            String value = schedule.get(name).toString();
-            System.out.println(key + " = " + value);
+        ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
+        ArrayList<RoomSlot> temporaryRoomslots = (ArrayList<RoomSlot>) roomslots.clone();
+        while (temporaryActivities.size() > 0) {
+            int indexActivity = rgen.nextInt(temporaryActivities.size());
+            int indexRoomSlot = rgen.nextInt(temporaryRoomslots.size());
+            schedule.put(roomslots.get(indexRoomSlot), temporaryActivities.get(indexActivity));
+            temporaryActivities.remove(indexActivity);
+            temporaryRoomslots.remove(indexRoomSlot);
         }
         return schedule;
     }
@@ -211,7 +213,6 @@ public class Main {
                 }
             }
         }
-        System.out.println(werkcolleges.get(2).students);
     }
 
     // Functie voor het indelen van de studenten in practica
@@ -242,7 +243,6 @@ public class Main {
                 }
             }
         }
-        System.out.println(practica.get(2).students);
     }
 
     // Functie voor het indelen van de studenten in hoorcolleges
@@ -268,7 +268,6 @@ public class Main {
                 }
             }
         }
-        System.out.println(hoorcolleges.get(2).students);
     }
 
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
@@ -311,15 +310,56 @@ public class Main {
             }
         }
 
-        /*
-        for(Course course : courses) {
-            for(RoomSlot roomslot : schedule.keySet()) {
-                Activity activity = schedule.get(roomslot);
-                if(activity.course == course) {
+        System.out.println(score);
+
+        // maluspunten voor elke activiteit die twee keer op een dag is ingeroosterd.
+        ArrayList<Activity> checkedActivities  = new ArrayList<>();
+        for(RoomSlot roomslotOne : schedule.keySet()) {
+            Activity activityOne = schedule.get(roomslotOne);
+            for(RoomSlot roomslotTwo : schedule.keySet()) {
+                Activity activityTwo = schedule.get(roomslotTwo);
+                if(roomslotOne == roomslotTwo) {
+                    continue;
+                }
+                if( checkedActivities.contains(activityTwo) ) {
+                    continue;
+                }
+                if ((roomslotOne.day == roomslotTwo.day)) {
+                    if (activityOne.course == activityTwo.course) {
+                        if (activityOne.typeActivity.equals("Hoorcollege")) {
+                            score = score - 10;
+                        }
+                        if (activityOne.typeActivity.equals("Werkcollege")) {
+                            if(activityTwo.typeActivity.equals("Hoorcollege")) {
+                                score = score - 10;
+                            }
+                            if(activityTwo.typeActivity.equals("Werkcollege")) {
+                                if(activityOne.number == activityTwo.number) {
+                                    score = score - 10;
+                                }
+                            }
+                            if(activityTwo.typeActivity.equals("Practicum")) {
+                                    score = score - 10;
+                            }
+                        }
+                        if (activityOne.typeActivity.equals("Practicum")) {
+                            if(activityTwo.typeActivity.equals("Hoorcollege")) {
+                                score = score - 10;
+                            }
+                            if(activityTwo.typeActivity.equals("Practicum")) {
+                                if(activityOne.number == activityTwo.number) {
+                                    score = score - 10;
+                                }
+                                if(activityTwo.typeActivity.equals("Werkcollege")) {
+                                    score = score - 10;
+                                }
+                            }
+                        }
+                    }
                 }
             }
+        checkedActivities.add(activityOne);
         }
-        */
 
         return score;
     }
