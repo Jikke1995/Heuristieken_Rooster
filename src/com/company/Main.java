@@ -151,7 +151,7 @@ public class Main {
         indelenStudentenPractica(activities, students, courses);
         indelenStudentenHoorcolleges(activities, students, courses);
         HashMap<RoomSlot, Activity> schedule = randomSchedule(roomslots, (ArrayList<Activity>) activities.clone());
-        System.out.println(score(schedule));
+        System.out.println(score(schedule, courses));
 
         // Begin stuk scorefunctie, moet in aparte void.
         //int score = 1000;
@@ -235,13 +235,17 @@ public class Main {
         System.out.println(practica.get(2).students);
     }
 
+    // Functie voor het indelen van de studenten in hoorcolleges
     public static void indelenStudentenHoorcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> hoorcolleges = new ArrayList<>();
+        // Alle hoorcolleges komen in de ArrayList 'hoorcolleges'
         for (Activity activity : activities) {
             if (activity.typeActivity.equals("hoorcollege")) {
                 hoorcolleges.add(activity);
             }
         }
+        // Per vak wordt er per student gekeken of hij/zij het vak volgt, en zo ja dan wordt het hoorcollege toegevoegd
+        // aan de ArrayList van studenten. Zo worden de studenten ingedeeld.
         for (Course course : courses) {
             for (Student student : students) {
                 if (student.courses.contains(course)) {
@@ -285,7 +289,6 @@ public class Main {
                 }
             }
         }
-        System.out.println(score);
         for(RoomSlot roomslot : schedule.keySet()) {
             if(roomslot.time == 17) {
                 score = score - 50;
@@ -295,12 +298,9 @@ public class Main {
             for(RoomSlot roomslot : schedule.keySet()) {
                 Activity activity = schedule.get(roomslot);
                 if(activity.course == course) {
-
                 }
             }
-
         }
-
         return score;
     }
 }
