@@ -17,7 +17,8 @@ public class RoomSlot {
     }
 
     // past aan wat moet worden uitgeprint
-    public String toString() {return "roomslot: " + day +  ", " + time + ", " + room;
+    public String toString() {
+        return "Zaalslot: " + day +  ", " + time + ", " + room;
     }
 }
 

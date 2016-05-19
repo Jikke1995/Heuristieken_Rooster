@@ -84,7 +84,7 @@ public class Main {
                 //hoorcolleges
                 int amountHoorcolleges = Integer.parseInt(name.split(",")[1]);
                 for (int i = 0; i < amountHoorcolleges; i++) {
-                    activities.add(new Activity("hoorcollege", courses.get(regelInCourses), -1, i));
+                    activities.add(new Activity("Hoorcollege", courses.get(regelInCourses), -1, i));
                 }
                 Course course = courses.get(regelInCourses);
                 // werkcolleges
@@ -94,7 +94,7 @@ public class Main {
                 int werkcollegeMultiplier = (int) Math.ceil(((double) amountOfStudentsWerkcollege) / capacityWerkcolleges);
                 for (int j = 0; j < amountWerkcolleges; j++) {
                     for (int i = 0; i < werkcollegeMultiplier; i++) {
-                        activities.add(new Activity("werkcollege", courses.get(regelInCourses), Integer.parseInt(name.split(",")[3]), i));
+                        activities.add(new Activity("Werkcollege", courses.get(regelInCourses), Integer.parseInt(name.split(",")[3]), i));
                     }
                 }
                 //practica
@@ -104,7 +104,7 @@ public class Main {
                 int practicaMultiplier = (int) Math.ceil(((double) amountOfStudentsPractica) / capacityPractica);
                 for (int k = 0; k < amountPractica; k++) {
                     for (int i = 0; i < practicaMultiplier; i++) {
-                        activities.add(new Activity("practicum", courses.get(regelInCourses), Integer.parseInt(name.split(",")[5]), i));
+                        activities.add(new Activity("Practicum", courses.get(regelInCourses), Integer.parseInt(name.split(",")[5]), i));
                     }
                 }
                 regelInCourses = regelInCourses + 1;
@@ -188,7 +188,7 @@ public class Main {
         ArrayList<Activity> werkcolleges = new ArrayList<>();
         // Alle werkcolleges komen in de ArrayList 'werkcollege'
         for (Activity activity : activities) {
-            if (activity.typeActivity.equals("werkcollege")) {
+            if (activity.typeActivity.equals("Werkcollege")) {
                 werkcolleges.add(activity);
             }
         }
@@ -219,7 +219,7 @@ public class Main {
         ArrayList<Activity> practica = new ArrayList<>();
         // Alle practica komen in de ArrayList 'practicum'
         for (Activity activity : activities) {
-            if (activity.typeActivity.equals("practicum")) {
+            if (activity.typeActivity.equals("Practicum")) {
                 practica.add(activity);
             }
         }
@@ -250,7 +250,7 @@ public class Main {
         ArrayList<Activity> hoorcolleges = new ArrayList<>();
         // Alle hoorcolleges komen in de ArrayList 'hoorcolleges'
         for (Activity activity : activities) {
-            if (activity.typeActivity.equals("hoorcollege")) {
+            if (activity.typeActivity.equals("Hoorcollege")) {
                 hoorcolleges.add(activity);
             }
         }

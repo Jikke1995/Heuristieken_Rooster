@@ -20,6 +20,6 @@ public class Activity {
 
     // past aan wat moet worden uitgeprint
     public String toString() {
-        return "activity: " + typeActivity + " " + number + ", " + course;
+        return "Activiteit:" + typeActivity + " " + number + ", " + course;
     }
 }
