@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
         // Creëeren Arraylists
@@ -13,11 +14,12 @@ public class Main {
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<RoomSlot> roomslots = new ArrayList<>();
         ArrayList<Activity> activities = new ArrayList<>();
+
         // while je nog kan lezen:
         try {
             // Leest de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader(new FileReader("resources/Courses-Oefen.csv"));
+                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
             while (true) {
                 // Leest de volgende regel uit de CoursesFile in
                 String name = Courseinfo.readLine();
@@ -33,11 +35,12 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
+
         //while je nog kan lezen
         try {
             // lees de StudentFile in
             BufferedReader Studentinfo =
-                    new BufferedReader(new FileReader("resources/Studenten-Oefen.csv"));
+                    new BufferedReader(new FileReader("resources/StudentsFile.csv"));
             while (true) {
                 // lees volgende regel uit de StudentFile in
                 String line = Studentinfo.readLine();
@@ -65,10 +68,11 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
+
         try {
             // lees de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader(new FileReader("resources/Courses-Oefen.csv"));
+                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
             int regelInCourses = 0;
             while (true) {
                 // lees de volgende regel uit de CoursesFile in
@@ -113,7 +117,7 @@ public class Main {
         try {
             // lees de RoomsFile in
             BufferedReader Roominfo =
-                    new BufferedReader(new FileReader("resources/Rooms-Oefen.csv"));
+                    new BufferedReader(new FileReader("resources/RoomsFile.csv"));
             while (true) {
                 // lees volgende regel uit de RoomsFile in
                 String name = Roominfo.readLine();
@@ -173,9 +177,6 @@ public class Main {
         }
         return schedule;
     }
-
-
-
     // // Functie voor het indelen van de studenten in werkcolleges
     public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> werkcolleges = new ArrayList<>();
