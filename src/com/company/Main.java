@@ -361,6 +361,7 @@ public class Main {
         checkedActivities.add(activityOne);
         }
 
+
         return score;
     }
 }
