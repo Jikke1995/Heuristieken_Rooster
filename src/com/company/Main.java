@@ -1,10 +1,12 @@
 package com.company;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
         // Creëeren Arraylists
@@ -13,6 +15,7 @@ public class Main {
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<RoomSlot> roomslots = new ArrayList<>();
         ArrayList<Activity> activities = new ArrayList<>();
+
         // while je nog kan lezen:
         try {
             // Leest de CoursesFile in
@@ -33,6 +36,7 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
+
         //while je nog kan lezen
         try {
             // lees de StudentFile in
@@ -65,6 +69,7 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
+
         try {
             // lees de CoursesFile in
             BufferedReader Courseinfo =
@@ -73,6 +78,7 @@ public class Main {
             while (true) {
                 // lees de volgende regel uit de CoursesFile in
                 String name = Courseinfo.readLine();
+
                 if (name == null) break;
                 // kijkt hoe veel hoorcolleges/werkcolleges/practica er van de desbetreffende course moet worden gegeven, en voegt
                 // voor elk college een activity toe aan de lijst van colleges, samen met de maximale hoeveelheid studenten per activity.
@@ -81,7 +87,9 @@ public class Main {
                 for (int i = 0; i < amountHoorcolleges; i++) {
                     activities.add(new Activity("Hoorcollege", courses.get(regelInCourses), -1, i));
                 }
+
                 Course course = courses.get(regelInCourses);
+
                 // werkcolleges
                 int amountWerkcolleges = Integer.parseInt(name.split(",")[2]);
                 int capacityWerkcolleges = Integer.parseInt(name.split(",")[3]);
@@ -92,6 +100,7 @@ public class Main {
                         activities.add(new Activity("Werkcollege", courses.get(regelInCourses), Integer.parseInt(name.split(",")[3]), i));
                     }
                 }
+
                 //practica
                 int amountPractica = Integer.parseInt(name.split(",")[4]);
                 int capacityPractica = Integer.parseInt(name.split(",")[5]);
@@ -108,6 +117,9 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
+
+       // System.out.println(activities);
+
         // while je nog kan lezen
         try {
             // lees de RoomsFile in
@@ -125,6 +137,7 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
+
         // Creëert een lijst met elk mogelijke roomsslot
         for (int j = 1; j < 6; j++) {
             for (int i = 9; i <= 15; i = i + 2) {
@@ -134,10 +147,12 @@ public class Main {
             }
             roomslots.add(new RoomSlot(j, 17, rooms.get(5)));
         }
+
         // deze taken worden uiteindelijk uitgevoerd
         indelenStudentenWerkcolleges(activities, students, courses);
         indelenStudentenPractica(activities, students, courses);
         indelenStudentenHoorcolleges(activities, students, courses);
+
         int bestScore = 0;
         HashMap<RoomSlot, Activity> bestSchedule = null;
         for (int i = 0; i < 2; i++) {
@@ -153,11 +168,15 @@ public class Main {
                 String value = newSchedule.get(name).toString();
                 System.out.println(key + " = " + value);
             }
+
         }
-        // bestSchedule opslaan
+    // bestSchedule opslaan
+
+
     }
+
     // fucntie voor het maken van een random schedule
-    public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
+    /* public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
         Random rgen = new Random();
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
         ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
@@ -171,6 +190,24 @@ public class Main {
         }
         return schedule;
     }
+    */
+
+    //dit is de oude
+    public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
+        Random rgen = new Random();
+        HashMap<RoomSlot, Activity> schedule = new HashMap<>();
+        //ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
+        //ArrayList<RoomSlot> temporaryRoomslots = (ArrayList<RoomSlot>) roomslots.clone();
+        while (activities.size() > 0) {
+            int indexActivity = rgen.nextInt(activities.size());
+            int indexRoomSlot = rgen.nextInt(roomslots.size());
+            schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
+            activities.remove(indexActivity);
+            roomslots.remove(indexRoomSlot);
+        }
+        return schedule;
+    }
+
     // // Functie voor het indelen van de studenten in werkcolleges
     public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> werkcolleges = new ArrayList<>();
@@ -200,6 +237,7 @@ public class Main {
             }
         }
     }
+
     // Functie voor het indelen van de studenten in practica
     public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> practica = new ArrayList<>();
@@ -229,6 +267,7 @@ public class Main {
             }
         }
     }
+
     // Functie voor het indelen van de studenten in hoorcolleges
     public static void indelenStudentenHoorcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> hoorcolleges = new ArrayList<>();
@@ -253,6 +292,7 @@ public class Main {
             }
         }
     }
+
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
         int score = 1000;
@@ -264,6 +304,8 @@ public class Main {
                 score = score - studentsOverCapacity;
             }
         }
+
+
         // maluspunt voor elke student die twee keer dezelfde tijd ingedeeld zijn
         for (RoomSlot roomslot : schedule.keySet()) {
             for (RoomSlot  otherRoomslot : schedule.keySet()) {
@@ -283,6 +325,7 @@ public class Main {
                 }
             }
         }
+
         //maluspunten voor timeslot in de avond
         for(RoomSlot roomslot : schedule.keySet()) {
             if(roomslot.time == 17) {
