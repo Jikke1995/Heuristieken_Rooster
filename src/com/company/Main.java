@@ -260,6 +260,7 @@ public class Main {
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
         int score = 1000;
+        // maluspunt voor elke student in een werkgroep die over de capacity heengaat
         for (RoomSlot roomslot : schedule.keySet()) {
             Activity activity = schedule.get(roomslot);
             if (activity.students.size() > roomslot.room.capacity) {
@@ -267,6 +268,8 @@ public class Main {
                 score = score - studentsOverCapacity;
             }
         }
+
+        // maluspunt voor elke keer dat student dubbel is ingeroosterd
         for (RoomSlot roomslot : schedule.keySet()) {
             for (RoomSlot  otherRoomslot : schedule.keySet()) {
                 if(roomslot == otherRoomslot) {
@@ -285,12 +288,17 @@ public class Main {
                 }
             }
         }
+
         System.out.println(score);
+
+        // maluspunten wanneer de avondslot wordt gebruikt
         for(RoomSlot roomslot : schedule.keySet()) {
             if(roomslot.time == 17) {
                 score = score - 50;
             }
         }
+
+        /*
         for(Course course : courses) {
             for(RoomSlot roomslot : schedule.keySet()) {
                 Activity activity = schedule.get(roomslot);
@@ -300,6 +308,7 @@ public class Main {
             }
 
         }
+        */
 
         return score;
     }
