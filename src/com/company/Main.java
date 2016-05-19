@@ -8,15 +8,15 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Main {
+
     public static void main(String[] args) {
-        // Creëeren Arraylists
         ArrayList<Student> students = new ArrayList<>();
         ArrayList<Course> courses = new ArrayList<>();
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<RoomSlot> roomslots = new ArrayList<>();
         ArrayList<Activity> activities = new ArrayList<>();
 
-        // while je nog kan lezen:
+        // Zolang het file lang is.
         try {
             // Leest de CoursesFile in
             BufferedReader Courseinfo =
@@ -37,7 +37,7 @@ public class Main {
             System.exit(1);
         }
 
-        //while je nog kan lezen
+        //Zolang het file lang is.
         try {
             // lees de StudentFile in
             BufferedReader Studentinfo =
@@ -146,41 +146,33 @@ public class Main {
             roomslots.add(new RoomSlot(j, 17, rooms.get(5)));
         }
 
-        // deze taken worden uiteindelijk uitgevoerd
+        // De functies worden uitgevoerd.
         indelenStudentenWerkcolleges(activities, students, courses);
         indelenStudentenPractica(activities, students, courses);
         indelenStudentenHoorcolleges(activities, students, courses);
-
-
         HashMap<RoomSlot, Activity> schedule = randomSchedule(roomslots, (ArrayList<Activity>) activities.clone());
-
         System.out.println(score(schedule, courses));
-
-        // Begin stuk scorefunctie, moet in aparte void.
-        //int score = 1000;
-        //String name = Room;
-        //int capicityRoom = Integer.parseInt(name.split(",")[1]);
 
 
     }
 
-    // fucntie voor het maken van een random schedule
+    // De functie die ervoor zorgt dat er een random rooster wordt gegenereerd.
     public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
-        Random rgen = new Random();
-        HashMap<RoomSlot, Activity> schedule = new HashMap<>();
-        while (activities.size() > 0) {
-            int indexActivity = rgen.nextInt(activities.size());
-            int indexRoomSlot = rgen.nextInt(roomslots.size());
-            schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
-            activities.remove(indexActivity);
-            roomslots.remove(indexRoomSlot);
-        }
+           Random rgen = new Random();
+           HashMap<RoomSlot, Activity> schedule = new HashMap<>();
+           while (activities.size() > 0) {
+               int indexActivity = rgen.nextInt(activities.size());
+               int indexRoomSlot = rgen.nextInt(roomslots.size());
+               schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
+               activities.remove(indexActivity);
+               roomslots.remove(indexRoomSlot);
+           }
         for (RoomSlot name : schedule.keySet()) {
             String key = name.toString();
             String value = schedule.get(name).toString();
             System.out.println(key + " = " + value);
         }
-        return schedule;
+            return schedule;
     }
 
     // // Functie voor het indelen van de studenten in werkcolleges
@@ -274,6 +266,7 @@ public class Main {
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
         int score = 1000;
+
         // maluspunten voor elke werkgroepstudent die over de capacity van de zaal gaat
         for (RoomSlot roomslot : schedule.keySet()) {
             Activity activity = schedule.get(roomslot);

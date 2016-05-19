@@ -16,6 +16,7 @@ public class RoomSlot {
         //this.activity = activity;
     }
 
+
     // past aan wat moet worden uitgeprint
     public String toString() {
         return "Zaalslot: " + day +  ", " + time + ", " + room;

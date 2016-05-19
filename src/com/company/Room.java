@@ -12,6 +12,6 @@ public class Room {
 
     // past aan wat moet worden uitgeprint
     public String toString(){
-        return number + ", " + capacity;
+        return number;
     }
 }
