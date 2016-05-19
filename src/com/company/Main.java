@@ -8,15 +8,15 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Main {
-
     public static void main(String[] args) {
+        // Creëeren Arraylists
         ArrayList<Student> students = new ArrayList<>();
         ArrayList<Course> courses = new ArrayList<>();
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<RoomSlot> roomslots = new ArrayList<>();
         ArrayList<Activity> activities = new ArrayList<>();
 
-        // Zolang het file lang is.
+        // while je nog kan lezen:
         try {
             // Leest de CoursesFile in
             BufferedReader Courseinfo =
@@ -37,7 +37,7 @@ public class Main {
             System.exit(1);
         }
 
-        //Zolang het file lang is.
+        //while je nog kan lezen
         try {
             // lees de StudentFile in
             BufferedReader Studentinfo =
@@ -146,33 +146,47 @@ public class Main {
             roomslots.add(new RoomSlot(j, 17, rooms.get(5)));
         }
 
-        // De functies worden uitgevoerd.
+        // deze taken worden uiteindelijk uitgevoerd
         indelenStudentenWerkcolleges(activities, students, courses);
         indelenStudentenPractica(activities, students, courses);
         indelenStudentenHoorcolleges(activities, students, courses);
-        HashMap<RoomSlot, Activity> schedule = randomSchedule(roomslots, (ArrayList<Activity>) activities.clone());
-        System.out.println(score(schedule, courses));
+
+        int bestScore = 0;
+        HashMap<RoomSlot, Activity> bestSchedule = null;
+        for (int i = 0; i < 2; i++) {
+            HashMap<RoomSlot, Activity> newSchedule = randomSchedule(roomslots, activities);
+            int newScore = score(newSchedule, courses);
+            if (newScore > bestScore) {
+                bestScore = newScore;
+                bestSchedule = newSchedule;
+            }
+            System.out.println(newScore);
+            for (RoomSlot name : newSchedule.keySet()) {
+                String key = name.toString();
+                String value = newSchedule.get(name).toString();
+                System.out.println(key + " = " + value);
+            }
+
+        }
+    // bestSchedule opslaan
 
 
     }
 
-    // De functie die ervoor zorgt dat er een random rooster wordt gegenereerd.
+    // fucntie voor het maken van een random schedule
     public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
-           Random rgen = new Random();
-           HashMap<RoomSlot, Activity> schedule = new HashMap<>();
-           while (activities.size() > 0) {
-               int indexActivity = rgen.nextInt(activities.size());
-               int indexRoomSlot = rgen.nextInt(roomslots.size());
-               schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
-               activities.remove(indexActivity);
-               roomslots.remove(indexRoomSlot);
-           }
-        for (RoomSlot name : schedule.keySet()) {
-            String key = name.toString();
-            String value = schedule.get(name).toString();
-            System.out.println(key + " = " + value);
+        Random rgen = new Random();
+        HashMap<RoomSlot, Activity> schedule = new HashMap<>();
+        ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
+        ArrayList<RoomSlot> temporaryRoomslots = (ArrayList<RoomSlot>) roomslots.clone();
+        while (temporaryActivities.size() > 0) {
+            int indexActivity = rgen.nextInt(temporaryActivities.size());
+            int indexRoomSlot = rgen.nextInt(temporaryRoomslots.size());
+            schedule.put(roomslots.get(indexRoomSlot), temporaryActivities.get(indexActivity));
+            temporaryActivities.remove(indexActivity);
+            temporaryRoomslots.remove(indexRoomSlot);
         }
-            return schedule;
+        return schedule;
     }
 
     // // Functie voor het indelen van de studenten in werkcolleges
@@ -266,7 +280,6 @@ public class Main {
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
         int score = 1000;
-
         // maluspunten voor elke werkgroepstudent die over de capacity van de zaal gaat
         for (RoomSlot roomslot : schedule.keySet()) {
             Activity activity = schedule.get(roomslot);
