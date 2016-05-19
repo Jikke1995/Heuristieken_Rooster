@@ -1,12 +1,10 @@
 package com.company;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
 public class Main {
     public static void main(String[] args) {
         // Creëeren Arraylists
@@ -15,7 +13,6 @@ public class Main {
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<RoomSlot> roomslots = new ArrayList<>();
         ArrayList<Activity> activities = new ArrayList<>();
-
         // while je nog kan lezen:
         try {
             // Leest de CoursesFile in
@@ -36,7 +33,6 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
-
         //while je nog kan lezen
         try {
             // lees de StudentFile in
@@ -69,7 +65,6 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
-
         try {
             // lees de CoursesFile in
             BufferedReader Courseinfo =
@@ -109,15 +104,10 @@ public class Main {
                 }
                 regelInCourses = regelInCourses + 1;
             }
-            System.out.println(activities);
-            System.out.println(activities.size());
-            Course course = courses.get(4);
-            System.out.println(course.students.size());
         } catch (IOException ex) {
             System.out.println("Can't find file");
             System.exit(1);
         }
-
         // while je nog kan lezen
         try {
             // lees de RoomsFile in
@@ -135,7 +125,6 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
-
         // Creëert een lijst met elk mogelijke roomsslot
         for (int j = 1; j < 6; j++) {
             for (int i = 9; i <= 15; i = i + 2) {
@@ -145,12 +134,10 @@ public class Main {
             }
             roomslots.add(new RoomSlot(j, 17, rooms.get(5)));
         }
-
         // deze taken worden uiteindelijk uitgevoerd
         indelenStudentenWerkcolleges(activities, students, courses);
         indelenStudentenPractica(activities, students, courses);
         indelenStudentenHoorcolleges(activities, students, courses);
-
         int bestScore = 0;
         HashMap<RoomSlot, Activity> bestSchedule = null;
         for (int i = 0; i < 2; i++) {
@@ -166,13 +153,9 @@ public class Main {
                 String value = newSchedule.get(name).toString();
                 System.out.println(key + " = " + value);
             }
-
         }
-    // bestSchedule opslaan
-
-
+        // bestSchedule opslaan
     }
-
     // fucntie voor het maken van een random schedule
     public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
         Random rgen = new Random();
@@ -188,7 +171,6 @@ public class Main {
         }
         return schedule;
     }
-
     // // Functie voor het indelen van de studenten in werkcolleges
     public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> werkcolleges = new ArrayList<>();
@@ -217,9 +199,7 @@ public class Main {
                 }
             }
         }
-        System.out.println(werkcolleges.get(2).students);
     }
-
     // Functie voor het indelen van de studenten in practica
     public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> practica = new ArrayList<>();
@@ -248,9 +228,7 @@ public class Main {
                 }
             }
         }
-        System.out.println(practica.get(2).students);
     }
-
     // Functie voor het indelen van de studenten in hoorcolleges
     public static void indelenStudentenHoorcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> hoorcolleges = new ArrayList<>();
@@ -274,9 +252,7 @@ public class Main {
                 }
             }
         }
-        System.out.println(hoorcolleges.get(2).students);
     }
-
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
         int score = 1000;
@@ -288,8 +264,6 @@ public class Main {
                 score = score - studentsOverCapacity;
             }
         }
-
-
         // maluspunt voor elke student die twee keer dezelfde tijd ingedeeld zijn
         for (RoomSlot roomslot : schedule.keySet()) {
             for (RoomSlot  otherRoomslot : schedule.keySet()) {
@@ -309,24 +283,61 @@ public class Main {
                 }
             }
         }
-
         //maluspunten voor timeslot in de avond
         for(RoomSlot roomslot : schedule.keySet()) {
             if(roomslot.time == 17) {
                 score = score - 50;
             }
         }
-
-        /*
-        for(Course course : courses) {
-            for(RoomSlot roomslot : schedule.keySet()) {
-                Activity activity = schedule.get(roomslot);
-                if(activity.course == course) {
+        System.out.println(score);
+        // maluspunten voor elke activiteit die twee keer op een dag is ingeroosterd.
+        ArrayList<Activity> checkedActivities  = new ArrayList<>();
+        for(RoomSlot roomslotOne : schedule.keySet()) {
+            Activity activityOne = schedule.get(roomslotOne);
+            for(RoomSlot roomslotTwo : schedule.keySet()) {
+                Activity activityTwo = schedule.get(roomslotTwo);
+                if(roomslotOne == roomslotTwo) {
+                    continue;
+                }
+                if( checkedActivities.contains(activityTwo) ) {
+                    continue;
+                }
+                if ((roomslotOne.day == roomslotTwo.day)) {
+                    if (activityOne.course == activityTwo.course) {
+                        if (activityOne.typeActivity.equals("Hoorcollege")) {
+                            score = score - 10;
+                        }
+                        if (activityOne.typeActivity.equals("Werkcollege")) {
+                            if(activityTwo.typeActivity.equals("Hoorcollege")) {
+                                score = score - 10;
+                            }
+                            if(activityTwo.typeActivity.equals("Werkcollege")) {
+                                if(activityOne.number == activityTwo.number) {
+                                    score = score - 10;
+                                }
+                            }
+                            if(activityTwo.typeActivity.equals("Practicum")) {
+                                score = score - 10;
+                            }
+                        }
+                        if (activityOne.typeActivity.equals("Practicum")) {
+                            if(activityTwo.typeActivity.equals("Hoorcollege")) {
+                                score = score - 10;
+                            }
+                            if(activityTwo.typeActivity.equals("Practicum")) {
+                                if(activityOne.number == activityTwo.number) {
+                                    score = score - 10;
+                                }
+                                if(activityTwo.typeActivity.equals("Werkcollege")) {
+                                    score = score - 10;
+                                }
+                            }
+                        }
+                    }
                 }
             }
+            checkedActivities.add(activityOne);
         }
-        */
-
 
         return score;
     }
