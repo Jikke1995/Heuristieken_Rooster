@@ -17,7 +17,7 @@ public class Main {
         try {
             // Leest de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
+                    new BufferedReader(new FileReader("resources/Courses-Oefen.csv"));
             while (true) {
                 // Leest de volgende regel uit de CoursesFile in
                 String name = Courseinfo.readLine();
@@ -37,7 +37,7 @@ public class Main {
         try {
             // lees de StudentFile in
             BufferedReader Studentinfo =
-                    new BufferedReader(new FileReader("resources/StudentsFile.csv"));
+                    new BufferedReader(new FileReader("resources/Studenten-Oefen.csv"));
             while (true) {
                 // lees volgende regel uit de StudentFile in
                 String line = Studentinfo.readLine();
@@ -68,7 +68,7 @@ public class Main {
         try {
             // lees de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
+                    new BufferedReader(new FileReader("resources/Courses-Oefen.csv"));
             int regelInCourses = 0;
             while (true) {
                 // lees de volgende regel uit de CoursesFile in
@@ -112,7 +112,7 @@ public class Main {
         try {
             // lees de RoomsFile in
             BufferedReader Roominfo =
-                    new BufferedReader(new FileReader("resources/RoomsFile.csv"));
+                    new BufferedReader(new FileReader("resources/Rooms-Oefen.csv"));
             while (true) {
                 // lees volgende regel uit de RoomsFile in
                 String name = Roominfo.readLine();
@@ -140,19 +140,19 @@ public class Main {
         indelenStudentenHoorcolleges(activities, students, courses);
         int bestScore = 0;
         HashMap<RoomSlot, Activity> bestSchedule = null;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             HashMap<RoomSlot, Activity> newSchedule = randomSchedule(roomslots, activities);
             int newScore = score(newSchedule, courses);
             if (newScore > bestScore) {
                 bestScore = newScore;
                 bestSchedule = newSchedule;
+                System.out.println("Uiteindelijke score: " + bestScore);
             }
-            System.out.println(newScore);
-            for (RoomSlot name : newSchedule.keySet()) {
-                String key = name.toString();
-                String value = newSchedule.get(name).toString();
-                System.out.println(key + " = " + value);
-            }
+        }
+        for (RoomSlot name : bestSchedule.keySet()) {
+            String key = name.toString();
+            String value = bestSchedule.get(name).toString();
+            System.out.println(key + " = " + value);
         }
         // bestSchedule opslaan
     }
@@ -256,6 +256,9 @@ public class Main {
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
         int score = 1000;
+
+        System.out.println("score voor alles: " + score);
+
         // maluspunten voor elke werkgroepstudent die over de capacity van de zaal gaat
         for (RoomSlot roomslot : schedule.keySet()) {
             Activity activity = schedule.get(roomslot);
@@ -264,6 +267,9 @@ public class Main {
                 score = score - studentsOverCapacity;
             }
         }
+
+        System.out.println("score na maluspunten voor elke werkgroepstudent die over de capacity van de zaal gaat: " + score);
+
         // maluspunt voor elke student die twee keer dezelfde tijd ingedeeld zijn
         for (RoomSlot roomslot : schedule.keySet()) {
             for (RoomSlot  otherRoomslot : schedule.keySet()) {
@@ -283,13 +289,18 @@ public class Main {
                 }
             }
         }
+
+        System.out.println("score na maluspunt voor elke student die twee keer dezelfde tijd ingedeeld zijn: " + score);;
+
         //maluspunten voor timeslot in de avond
         for(RoomSlot roomslot : schedule.keySet()) {
             if(roomslot.time == 17) {
                 score = score - 50;
             }
         }
-        System.out.println(score);
+
+        System.out.println("score na maluspunten voor timeslot in de avond: " + score);
+
         // maluspunten voor elke activiteit die twee keer op een dag is ingeroosterd.
         ArrayList<Activity> checkedActivities  = new ArrayList<>();
         for(RoomSlot roomslotOne : schedule.keySet()) {
@@ -338,6 +349,9 @@ public class Main {
             }
             checkedActivities.add(activityOne);
         }
+
+        System.out.println("score na maluspunten voor elke activiteit die twee keer op een dag is ingeroosterd: " + score);
+
 
         return score;
     }
