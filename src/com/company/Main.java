@@ -184,51 +184,55 @@ public class Main {
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
         ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
         ArrayList<RoomSlot> temporaryRoomslots = (ArrayList<RoomSlot>) roomslots.clone();
+        int amountHoorcolleges = 0;
+        for(Activity activity : temporaryActivities) {
+            if(activity.typeActivity.equals("Hoorcollege")) {
+            amountHoorcolleges = amountHoorcolleges + 1;
+            }
+        }
+
+        System.out.println("aantal hoorcolleges: " + amountHoorcolleges);
+        //System.out.println(temporaryActivities.size());
+        //System.out.println(temporaryRoomslots.size());
 
         //dit klopt nog lang niet
-        /*ArrayList<RoomSlot> bigRoomslots = new ArrayList<>();
+        ArrayList<RoomSlot> bigRoomslots = new ArrayList<>();
         for(RoomSlot roomslot : temporaryRoomslots) {
             if(roomslot.room.number.equals("C0.110") || roomslot.room.number.equals("C1.112")) {
                 bigRoomslots.add(roomslot);
+            }
+        }
+
+        // hier deelt hij niet alle activities in, er werkt meer nog niet
+        for(Activity activity : temporaryActivities) {
+            if(activity.typeActivity.equals("Hoorcollege")) {
+                int indexRoomSlot = rgen.nextInt(bigRoomslots.size());
+                RoomSlot roomslot = bigRoomslots.get(indexRoomSlot);
+                schedule.put(roomslot, activity);
+                //temporaryActivities.remove(activity);
+                temporaryRoomslots.remove(roomslot);
             }
         }
         for(RoomSlot roomslot : bigRoomslots) {
             temporaryRoomslots.remove(roomslot);
         }
 
-        System.out.println(bigRoomslots);
-        System.out.println(temporaryRoomslots);
+        //System.out.println(bigRoomslots);
+        System.out.println(temporaryRoomslots.size());
+        //System.out.println(temporaryRoomslots);
 
-        for(int i = 0; i < temporaryActivities.size(); i++) {
-            if(temporaryActivities.get(i).typeActivity.equals("Hoorcollege")) {
-                int indexRoomSlot = rgen.nextInt(bigRoomslots.size());
-                schedule.put(bigRoomslots.get(indexRoomSlot), temporaryActivities.get(i));
-                bigRoomslots.remove(indexRoomSlot);
-            }
-        }
-        for(int i = 0; i < temporaryActivities.size(); i++) {
-            if(temporaryActivities.get(i).typeActivity.equals("Hoorcollege")) {
-                temporaryActivities.remove(i);
-            }
-        }
-        for(RoomSlot roomslot : bigRoomslots) {
-            temporaryRoomslots.add(roomslot);
-        }
 
-        System.out.println(bigRoomslots);
-        System.out.println(temporaryRoomslots);
-        */
+        //System.out.println(temporaryActivities.size());
 
-        System.out.println(temporaryActivities);
-
-        while (temporaryActivities.size() > 0) {
+        // dit deelt alle activities in roomslots in
+        /* while (temporaryActivities.size() > 0) {
             int indexActivity = rgen.nextInt(temporaryActivities.size());
             int indexRoomSlot = rgen.nextInt(temporaryRoomslots.size());
             schedule.put(temporaryRoomslots.get(indexRoomSlot), temporaryActivities.get(indexActivity));
             temporaryActivities.remove(indexActivity);
             temporaryRoomslots.remove(indexRoomSlot);
         }
-
+        */
         return schedule;
     }
 
