@@ -19,7 +19,7 @@ public class Main {
         try {
             // Leest de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
+                    new BufferedReader(new FileReader("resources/Courses-Oefen.csv"));
             while (true) {
                 // Leest de volgende regel uit de CoursesFile in
                 String name = Courseinfo.readLine();
@@ -40,7 +40,7 @@ public class Main {
         try {
             // lees de StudentFile in
             BufferedReader Studentinfo =
-                    new BufferedReader(new FileReader("resources/StudentsFile.csv"));
+                    new BufferedReader(new FileReader("resources/Studenten-Oefen.csv"));
             while (true) {
                 // lees volgende regel uit de StudentFile in
                 String line = Studentinfo.readLine();
@@ -72,7 +72,7 @@ public class Main {
         try {
             // lees de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
+                    new BufferedReader(new FileReader("resources/Courses-Oefen.csv"));
             int regelInCourses = 0;
             while (true) {
                 // lees de volgende regel uit de CoursesFile in
@@ -117,7 +117,7 @@ public class Main {
         try {
             // lees de RoomsFile in
             BufferedReader Roominfo =
-                    new BufferedReader(new FileReader("resources/RoomsFile.csv"));
+                    new BufferedReader(new FileReader("resources/Rooms-Oefen.csv"));
             while (true) {
                 // lees volgende regel uit de RoomsFile in
                 String name = Roominfo.readLine();
@@ -162,7 +162,6 @@ public class Main {
         // bestSchedule opslaan
     }
     // fucntie voor het maken van een random schedule
-    //nieuwe
     public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
         Random rgen = new Random();
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
@@ -190,21 +189,18 @@ public class Main {
         for (Course course : courses) {
             for (Student student : students) {
                 if (student.courses.contains(course)) {
-                    int gevolgdeWerkcolleges = 0;
                     for (Activity werkcollege : werkcolleges) {
                         if (werkcollege.course.equals(course)) {
                             if (werkcollege.students.size() < werkcollege.capacity) {
                                 werkcollege.students.add(student);
-                                gevolgdeWerkcolleges += 1;
-                                if (gevolgdeWerkcolleges > course.amountWerkcolleges) {
-                                    break;
-                                }
+                            break;
                             }
                         }
                     }
                 }
             }
         }
+
     }
     // Functie voor het indelen van de studenten in practica
     public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
@@ -219,15 +215,10 @@ public class Main {
         for (Course course : courses) {
             for (Student student : students) {
                 if (student.courses.contains(course)) {
-                    int gevolgdePractica = 0;
                     for (Activity practicum : practica) {
                         if (practicum.course.equals(course)) {
                             if (practicum.students.size() < practicum.capacity) {
                                 practicum.students.add(student);
-                                gevolgdePractica += 1;
-                                if (gevolgdePractica > course.amountPractica) {
-                                    break;
-                                }
                             }
                         }
                     }
@@ -249,15 +240,23 @@ public class Main {
         for (Course course : courses) {
             for (Student student : students) {
                 if (student.courses.contains(course)) {
+                    int gevolgdeHoorcolleges = 0;
                     for (Activity hoorcollege : hoorcolleges) {
                         if (hoorcollege.course.equals(course)) {
                             hoorcollege.students.add(student);
-                            break;
+                            gevolgdeHoorcolleges += 1;
+                            if (gevolgdeHoorcolleges > course.amountHoorcolleges) {
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
+        System.out.println(hoorcolleges.get(0));
+        System.out.println(hoorcolleges.get(0).students);
+        System.out.println(hoorcolleges.get(1));
+        System.out.println(hoorcolleges.get(1).students);
     }
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
