@@ -220,12 +220,6 @@ public class Main {
                 }
             }
         }
-        //System.out.println(werkcolleges.get(2));
-        //System.out.println(werkcolleges.get(2).students);
-        //System.out.println(werkcolleges.get(3));
-        //System.out.println(werkcolleges.get(3).students);
-        //System.out.println(werkcolleges.get(4));
-        //System.out.println(werkcolleges.get(4).students);
     }
 
     // Functie voor het indelen van de studenten in practica
@@ -246,23 +240,15 @@ public class Main {
                         if (practicum.course.equals(course)) {
                             if (practicum.students.size() < practicum.capacity) {
                                 practicum.students.add(student);
-                                //gevolgdePractica += 1;
-                                //if (gevolgdePractica > course.amountPractica) {
-                                    break;
-                                //}
+                                break;
                             }
                         }
                     }
                 }
             }
         }
-        System.out.println(practica.get(2));
-        System.out.println(practica.get(2).students);
-        System.out.println(practica.get(3));
-        System.out.println(practica.get(3).students);
-        System.out.println(practica.get(4));
-        System.out.println(practica.get(4).students);
     }
+
     // Functie voor het indelen van de studenten in hoorcolleges
     public static void indelenStudentenHoorcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> hoorcolleges = new ArrayList<>();
