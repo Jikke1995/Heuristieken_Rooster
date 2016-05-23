@@ -19,7 +19,7 @@ public class Main {
         try {
             // Leest de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader(new FileReader("resources/Courses-Oefen.csv"));
+                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
             while (true) {
                 // Leest de volgende regel uit de CoursesFile in
                 String name = Courseinfo.readLine();
@@ -40,7 +40,7 @@ public class Main {
         try {
             // lees de StudentFile in
             BufferedReader Studentinfo =
-                    new BufferedReader(new FileReader("resources/Studenten-Oefen.csv"));
+                    new BufferedReader(new FileReader("resources/StudentsFile.csv"));
             while (true) {
                 // lees volgende regel uit de StudentFile in
                 String line = Studentinfo.readLine();
@@ -72,7 +72,7 @@ public class Main {
         try {
             // lees de CoursesFile in
             BufferedReader Courseinfo =
-                    new BufferedReader(new FileReader("resources/Courses-Oefen.csv"));
+                    new BufferedReader(new FileReader("resources/CoursesFile.csv"));
             int regelInCourses = 0;
             while (true) {
                 // lees de volgende regel uit de CoursesFile in
@@ -117,7 +117,7 @@ public class Main {
         try {
             // lees de RoomsFile in
             BufferedReader Roominfo =
-                    new BufferedReader(new FileReader("resources/Rooms-Oefen.csv"));
+                    new BufferedReader(new FileReader("resources/RoomsFile.csv"));
             while (true) {
                 // lees volgende regel uit de RoomsFile in
                 String name = Roominfo.readLine();
@@ -200,8 +200,8 @@ public class Main {
                 }
             }
         }
-
     }
+
     // Functie voor het indelen van de studenten in practica
     public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> practica = new ArrayList<>();
@@ -226,6 +226,7 @@ public class Main {
             }
         }
     }
+
     // Functie voor het indelen van de studenten in hoorcolleges
     public static void indelenStudentenHoorcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> hoorcolleges = new ArrayList<>();
