@@ -112,7 +112,9 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
-        System.out.println(activities.size());
+
+       // System.out.println(activities);
+
         // while je nog kan lezen
         try {
             // lees de RoomsFile in
@@ -162,8 +164,7 @@ public class Main {
         // bestSchedule opslaan
     }
     // fucntie voor het maken van een random schedule
-    //nieuwe
-    public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
+    /* public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
         Random rgen = new Random();
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
         ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
@@ -171,12 +172,30 @@ public class Main {
         while (temporaryActivities.size() > 0) {
             int indexActivity = rgen.nextInt(temporaryActivities.size());
             int indexRoomSlot = rgen.nextInt(temporaryRoomslots.size());
-            schedule.put(temporaryRoomslots.get(indexRoomSlot), temporaryActivities.get(indexActivity));
+            schedule.put(roomslots.get(indexRoomSlot), temporaryActivities.get(indexActivity));
             temporaryActivities.remove(indexActivity);
             temporaryRoomslots.remove(indexRoomSlot);
         }
         return schedule;
     }
+    */
+
+    //dit is de oude
+    public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
+        Random rgen = new Random();
+        HashMap<RoomSlot, Activity> schedule = new HashMap<>();
+        //ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
+        //ArrayList<RoomSlot> temporaryRoomslots = (ArrayList<RoomSlot>) roomslots.clone();
+        while (activities.size() > 0) {
+            int indexActivity = rgen.nextInt(activities.size());
+            int indexRoomSlot = rgen.nextInt(roomslots.size());
+            schedule.put(roomslots.get(indexRoomSlot), activities.get(indexActivity));
+            activities.remove(indexActivity);
+            roomslots.remove(indexRoomSlot);
+        }
+        return schedule;
+    }
+
     // // Functie voor het indelen van de studenten in werkcolleges
     public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> werkcolleges = new ArrayList<>();
@@ -362,5 +381,3 @@ public class Main {
         return score;
     }
 }
-
-
