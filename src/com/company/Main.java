@@ -113,7 +113,7 @@ public class Main {
             System.exit(1);
         }
 
-       // System.out.println(activities);
+       //System.out.println(activities);
 
         // while je nog kan lezen
         try {
@@ -147,7 +147,7 @@ public class Main {
         indelenStudentenHoorcolleges(activities, students, courses);
         int bestScore = 0;
         HashMap<RoomSlot, Activity> bestSchedule = null;
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i <= 1; i++) {
             HashMap<RoomSlot, Activity> newSchedule = randomSchedule(roomslots, activities);
             int newScore = score(newSchedule, courses);
             if (newScore > bestScore) {
