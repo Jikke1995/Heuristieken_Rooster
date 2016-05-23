@@ -15,6 +15,6 @@ public class Student {
 
     // past aan wat moet worden uitgeprint
     public String toString() {
-        return name + ", " + studentnummer + ", " + courses;
+        return name + ", " + studentnummer;
     }
 }

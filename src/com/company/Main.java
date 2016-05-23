@@ -147,7 +147,7 @@ public class Main {
         indelenStudentenHoorcolleges(activities, students, courses);
         int bestScore = 0;
         HashMap<RoomSlot, Activity> bestSchedule = null;
-        for (int i = 0; i <= 1; i++) {
+        //for (int i = 0; i <= 2; i++) {
             HashMap<RoomSlot, Activity> newSchedule = randomSchedule(roomslots, activities);
             int newScore = score(newSchedule, courses);
             if (newScore > bestScore) {
@@ -155,7 +155,7 @@ public class Main {
                 bestSchedule = newSchedule;
                 System.out.println("Uiteindelijke score: " + bestScore);
             }
-        }
+        //}
         for (RoomSlot name : bestSchedule.keySet()) {
             String key = name.toString();
             String value = bestSchedule.get(name).toString();
@@ -209,22 +209,25 @@ public class Main {
         for (Course course : courses) {
             for (Student student : students) {
                 if (student.courses.contains(course)) {
-                    int gevolgdeWerkcolleges = 0;
                     for (Activity werkcollege : werkcolleges) {
                         if (werkcollege.course.equals(course)) {
                             if (werkcollege.students.size() < werkcollege.capacity) {
                                 werkcollege.students.add(student);
-                                gevolgdeWerkcolleges += 1;
-                                if (gevolgdeWerkcolleges > course.amountWerkcolleges) {
-                                    break;
-                                }
+                                break;
                             }
                         }
                     }
                 }
             }
         }
+        //System.out.println(werkcolleges.get(2));
+        //System.out.println(werkcolleges.get(2).students);
+        //System.out.println(werkcolleges.get(3));
+        //System.out.println(werkcolleges.get(3).students);
+        //System.out.println(werkcolleges.get(4));
+        //System.out.println(werkcolleges.get(4).students);
     }
+
     // Functie voor het indelen van de studenten in practica
     public static void indelenStudentenPractica(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> practica = new ArrayList<>();
@@ -238,21 +241,27 @@ public class Main {
         for (Course course : courses) {
             for (Student student : students) {
                 if (student.courses.contains(course)) {
-                    int gevolgdePractica = 0;
+                    //int gevolgdePractica = 0;
                     for (Activity practicum : practica) {
                         if (practicum.course.equals(course)) {
                             if (practicum.students.size() < practicum.capacity) {
                                 practicum.students.add(student);
-                                gevolgdePractica += 1;
-                                if (gevolgdePractica > course.amountPractica) {
+                                //gevolgdePractica += 1;
+                                //if (gevolgdePractica > course.amountPractica) {
                                     break;
-                                }
+                                //}
                             }
                         }
                     }
                 }
             }
         }
+        System.out.println(practica.get(2));
+        System.out.println(practica.get(2).students);
+        System.out.println(practica.get(3));
+        System.out.println(practica.get(3).students);
+        System.out.println(practica.get(4));
+        System.out.println(practica.get(4).students);
     }
     // Functie voor het indelen van de studenten in hoorcolleges
     public static void indelenStudentenHoorcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
