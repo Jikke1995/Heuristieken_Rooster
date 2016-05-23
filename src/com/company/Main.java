@@ -1,3 +1,5 @@
+
+
 package com.company;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -112,7 +114,8 @@ public class Main {
             System.out.println("Can't find file");
             System.exit(1);
         }
-        System.out.println(activities.size());
+
+        //System.out.println(activities);
         // while je nog kan lezen
         try {
             // lees de RoomsFile in
@@ -143,15 +146,26 @@ public class Main {
         indelenStudentenWerkcolleges(activities, students, courses);
         indelenStudentenPractica(activities, students, courses);
         indelenStudentenHoorcolleges(activities, students, courses);
-        int bestScore = 0;
+        int bestScore = -1000;
         HashMap<RoomSlot, Activity> bestSchedule = null;
+        ArrayList<Integer> allScores = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
             HashMap<RoomSlot, Activity> newSchedule = randomSchedule(roomslots, activities);
             int newScore = score(newSchedule, courses);
+            allScores.add(newScore);
+            // elk gemaakte rooster uitprinten
+/*            for (RoomSlot name : newSchedule.keySet()) {
+                String key = name.toString();
+                String value = newSchedule.get(name).toString();
+                System.out.println(key + " = " + value);
+            }
+
+            System.out.println(" ");
+            System.out.println(" ");
+*/
             if (newScore > bestScore) {
                 bestScore = newScore;
                 bestSchedule = newSchedule;
-                System.out.println("Uiteindelijke score: " + bestScore);
             }
         }
         for (RoomSlot name : bestSchedule.keySet()) {
@@ -159,7 +173,10 @@ public class Main {
             String value = bestSchedule.get(name).toString();
             System.out.println(key + " = " + value);
         }
-        // bestSchedule opslaan
+
+        System.out.println("Score beste rooster: " + bestScore);
+        System.out.println("Alle scores: " + allScores);
+
     }
     // fucntie voor het maken van een random schedule
     public static HashMap<RoomSlot, Activity> randomSchedule(ArrayList<RoomSlot> roomslots, ArrayList<Activity> activities) {
@@ -167,6 +184,43 @@ public class Main {
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
         ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
         ArrayList<RoomSlot> temporaryRoomslots = (ArrayList<RoomSlot>) roomslots.clone();
+
+        //dit klopt nog lang niet
+        /*ArrayList<RoomSlot> bigRoomslots = new ArrayList<>();
+        for(RoomSlot roomslot : temporaryRoomslots) {
+            if(roomslot.room.number.equals("C0.110") || roomslot.room.number.equals("C1.112")) {
+                bigRoomslots.add(roomslot);
+            }
+        }
+        for(RoomSlot roomslot : bigRoomslots) {
+            temporaryRoomslots.remove(roomslot);
+        }
+
+        System.out.println(bigRoomslots);
+        System.out.println(temporaryRoomslots);
+
+        for(int i = 0; i < temporaryActivities.size(); i++) {
+            if(temporaryActivities.get(i).typeActivity.equals("Hoorcollege")) {
+                int indexRoomSlot = rgen.nextInt(bigRoomslots.size());
+                schedule.put(bigRoomslots.get(indexRoomSlot), temporaryActivities.get(i));
+                bigRoomslots.remove(indexRoomSlot);
+            }
+        }
+        for(int i = 0; i < temporaryActivities.size(); i++) {
+            if(temporaryActivities.get(i).typeActivity.equals("Hoorcollege")) {
+                temporaryActivities.remove(i);
+            }
+        }
+        for(RoomSlot roomslot : bigRoomslots) {
+            temporaryRoomslots.add(roomslot);
+        }
+
+        System.out.println(bigRoomslots);
+        System.out.println(temporaryRoomslots);
+        */
+
+        System.out.println(temporaryActivities);
+
         while (temporaryActivities.size() > 0) {
             int indexActivity = rgen.nextInt(temporaryActivities.size());
             int indexRoomSlot = rgen.nextInt(temporaryRoomslots.size());
@@ -174,8 +228,10 @@ public class Main {
             temporaryActivities.remove(indexActivity);
             temporaryRoomslots.remove(indexRoomSlot);
         }
+
         return schedule;
     }
+
     // // Functie voor het indelen van de studenten in werkcolleges
     public static void indelenStudentenWerkcolleges(ArrayList<Activity> activities, ArrayList<Student> students, ArrayList<Course> courses) {
         ArrayList<Activity> werkcolleges = new ArrayList<>();
@@ -193,7 +249,7 @@ public class Main {
                         if (werkcollege.course.equals(course)) {
                             if (werkcollege.students.size() < werkcollege.capacity) {
                                 werkcollege.students.add(student);
-                            break;
+                                break;
                             }
                         }
                     }
@@ -254,16 +310,16 @@ public class Main {
                 }
             }
         }
-        System.out.println(hoorcolleges.get(0));
-        System.out.println(hoorcolleges.get(0).students);
-        System.out.println(hoorcolleges.get(1));
-        System.out.println(hoorcolleges.get(1).students);
+        //System.out.println(hoorcolleges.get(0));
+        //System.out.println(hoorcolleges.get(0).students);
+        //System.out.println(hoorcolleges.get(1));
+        //System.out.println(hoorcolleges.get(1).students);
     }
     public static int score(HashMap<RoomSlot, Activity> schedule, ArrayList<Course> courses) {
         // Stelt basisscore op 1000
         int score = 1000;
 
-        System.out.println("score voor alles: " + score);
+        //System.out.println("score voor alles: " + score);
 
         // maluspunten voor elke werkgroepstudent die over de capacity van de zaal gaat
         for (RoomSlot roomslot : schedule.keySet()) {
@@ -274,7 +330,7 @@ public class Main {
             }
         }
 
-        System.out.println("score na maluspunten voor elke werkgroepstudent die over de capacity van de zaal gaat: " + score);
+        //System.out.println("score na maluspunten voor elke werkgroepstudent die over de capacity van de zaal gaat: " + score);
 
         // maluspunt voor elke student die twee keer dezelfde tijd ingedeeld zijn
         for (RoomSlot roomslot : schedule.keySet()) {
@@ -296,7 +352,7 @@ public class Main {
             }
         }
 
-        System.out.println("score na maluspunt voor elke student die twee keer dezelfde tijd ingedeeld zijn: " + score);;
+        // System.out.println("score na maluspunt voor elke student die twee keer dezelfde tijd ingedeeld zijn: " + score);;
 
         //maluspunten voor timeslot in de avond
         for(RoomSlot roomslot : schedule.keySet()) {
@@ -305,60 +361,119 @@ public class Main {
             }
         }
 
-        System.out.println("score na maluspunten voor timeslot in de avond: " + score);
+        // System.out.println("score na maluspunten voor timeslot in de avond: " + score);
 
         // maluspunten voor elke activiteit die twee keer op een dag is ingeroosterd.
-        ArrayList<Activity> checkedActivities  = new ArrayList<>();
-        for(RoomSlot roomslotOne : schedule.keySet()) {
-            Activity activityOne = schedule.get(roomslotOne);
-            for(RoomSlot roomslotTwo : schedule.keySet()) {
-                Activity activityTwo = schedule.get(roomslotTwo);
-                if(roomslotOne == roomslotTwo) {
+        HashMap<RoomSlot, Activity> temporarySchedule = (HashMap<RoomSlot, Activity>) schedule.clone();
+        ArrayList<Activity> checkedActivities = new ArrayList<>();
+        for(RoomSlot roomslotOne : temporarySchedule.keySet()) {
+            Activity activityOne = temporarySchedule.get(roomslotOne);
+            for(RoomSlot roomslotTwo : temporarySchedule.keySet()) {
+                Activity activityTwo = temporarySchedule.get(roomslotTwo);
+                if(roomslotOne == roomslotTwo || checkedActivities.contains(activityTwo)) {
                     continue;
                 }
-                if( checkedActivities.contains(activityTwo) ) {
-                    continue;
-                }
-                if ((roomslotOne.day == roomslotTwo.day)) {
-                    if (activityOne.course == activityTwo.course) {
-                        if (activityOne.typeActivity.equals("Hoorcollege")) {
+                if (roomslotOne.day == roomslotTwo.day && activityOne.course == activityTwo.course ) {
+
+                    if (activityOne.typeActivity.equals("Hoorcollege")) {
+                        score = score - 10;
+                        if(activityTwo.typeActivity.equals("Werkcollege") || activityTwo.typeActivity.equals("Practicum")) {
+                            for(RoomSlot roomslotSame : temporarySchedule.keySet()) {
+                                Activity activitySame = temporarySchedule.get(roomslotSame);
+                                if(activityTwo == activitySame) {
+                                    continue;
+                                }
+                                if (activityTwo.course == activitySame.course && activityTwo.typeActivity.equals(activitySame.typeActivity)) {
+                                    temporarySchedule.remove(activitySame);
+                                }
+                            }
+                        }
+                        temporarySchedule.remove(activityTwo);
+                        break;
+                    }
+
+                    if (activityOne.typeActivity.equals("Werkcollege")) {
+                        if(activityTwo.typeActivity.equals("Hoorcollege")) {
                             score = score - 10;
+                            temporarySchedule.remove(activityTwo);
                         }
-                        if (activityOne.typeActivity.equals("Werkcollege")) {
-                            if(activityTwo.typeActivity.equals("Hoorcollege")) {
-                                score = score - 10;
-                            }
-                            if(activityTwo.typeActivity.equals("Werkcollege")) {
-                                if(activityOne.number == activityTwo.number) {
-                                    score = score - 10;
+                        if(activityTwo.typeActivity.equals("Practicum")) {
+                            score = score - 10;
+                            for(RoomSlot roomslotSame : temporarySchedule.keySet()) {
+                                Activity activitySame = temporarySchedule.get(roomslotSame);
+                                if(activityTwo == activitySame) {
+                                    continue;
+                                }
+                                if (activityTwo.course == activitySame.course && activityTwo.typeActivity.equals(activitySame.typeActivity)) {
+                                    temporarySchedule.remove(activitySame);
                                 }
                             }
-                            if(activityTwo.typeActivity.equals("Practicum")) {
-                                score = score - 10;
-                            }
+                            temporarySchedule.remove(activityTwo);
+
                         }
-                        if (activityOne.typeActivity.equals("Practicum")) {
-                            if(activityTwo.typeActivity.equals("Hoorcollege")) {
-                                score = score - 10;
-                            }
-                            if(activityTwo.typeActivity.equals("Practicum")) {
-                                if(activityOne.number == activityTwo.number) {
-                                    score = score - 10;
-                                }
-                                if(activityTwo.typeActivity.equals("Werkcollege")) {
-                                    score = score - 10;
-                                }
-                            }
+                        break;
+                    }
+
+                    if (activityOne.typeActivity.equals("Practicum")) {
+                        if(activityTwo.typeActivity.equals("Hoorcollege")) {
+                            score = score - 10;
+                            temporarySchedule.remove(activityTwo);
+
                         }
+                        if(activityTwo.typeActivity.equals("Werkcollege")) {
+                            score = score - 10;
+                            for(RoomSlot roomslotSame : temporarySchedule.keySet()) {
+                                Activity activitySame = temporarySchedule.get(roomslotSame);
+                                if(activityTwo == activitySame) {
+                                    continue;
+                                }
+                                if (activityTwo.course == activitySame.course && activityTwo.typeActivity.equals(activitySame.typeActivity)) {
+                                    temporarySchedule.remove(activitySame);
+                                }
+                            }
+                            temporarySchedule.remove(activityTwo);
+                        }
+                        break;
                     }
                 }
+            }
+
+            if(activityOne.typeActivity.equals("Hoorcollege")) {
+                temporarySchedule.remove(activityOne);
+            }
+
+            if(activityOne.typeActivity.equals("Werkcollege")) {
+                for(RoomSlot roomslotSame : temporarySchedule.keySet()) {
+                    Activity activitySame = temporarySchedule.get(roomslotSame);
+                    if(activityOne == activitySame) {
+                        continue;
+                    }
+                    if (activityOne.course == activitySame.course && activityOne.typeActivity.equals(activitySame.typeActivity)) {
+                        temporarySchedule.remove(activitySame);
+                    }
+                }
+                temporarySchedule.remove(activityOne);
+            }
+
+            if(activityOne.typeActivity.equals("Practicum")) {
+                for(RoomSlot roomslotSame : temporarySchedule.keySet()) {
+                    Activity activitySame = temporarySchedule.get(roomslotSame);
+                    if(activityOne == activitySame) {
+                        continue;
+                    }
+                    if (activityOne.course == activitySame.course && activityOne.typeActivity.equals(activitySame.typeActivity)) {
+                        temporarySchedule.remove(activitySame);
+                    }
+                }
+                temporarySchedule.remove(activityOne);
             }
             checkedActivities.add(activityOne);
         }
 
-        System.out.println("score na maluspunten voor elke activiteit die twee keer op een dag is ingeroosterd: " + score);
-
+        //System.out.println("score na maluspunten voor elke activiteit die twee keer op een dag is ingeroosterd: " + score);
 
         return score;
     }
 }
+
+
