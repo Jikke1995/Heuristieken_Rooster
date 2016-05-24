@@ -184,18 +184,11 @@ public class Main {
         HashMap<RoomSlot, Activity> schedule = new HashMap<>();
         ArrayList<Activity> temporaryActivities = (ArrayList<Activity>) activities.clone();
         ArrayList<RoomSlot> temporaryRoomslots = (ArrayList<RoomSlot>) roomslots.clone();
-        int amountHoorcolleges = 0;
-        for(Activity activity : temporaryActivities) {
-            if(activity.typeActivity.equals("Hoorcollege")) {
-            amountHoorcolleges = amountHoorcolleges + 1;
-            }
-        }
 
-        System.out.println("aantal hoorcolleges: " + amountHoorcolleges);
         //System.out.println(temporaryActivities.size());
         //System.out.println(temporaryRoomslots.size());
 
-        //dit klopt nog lang niet
+        // creeert een arraylist met enkel de twee grootste rooms
         ArrayList<RoomSlot> bigRoomslots = new ArrayList<>();
         for(RoomSlot roomslot : temporaryRoomslots) {
             if(roomslot.room.number.equals("C0.110") || roomslot.room.number.equals("C1.112")) {
@@ -203,7 +196,9 @@ public class Main {
             }
         }
 
-        // hier deelt hij niet alle activities in, er werkt meer nog niet
+        // Op een of andere manier deelt hij maar een random hoeveelheid (25-32) van de 39 hoorcolleges in, de rest pakt ie niet,
+        // terwijl als je het aantal hoorcolleges in temporaryActivities opvraagt, je wel 39 hoorcolleges krijgt.
+        // Wanneer je de command temporaryActivities.remove(activity); neerzet, geeft hij helemaal een error
         for(Activity activity : temporaryActivities) {
             if(activity.typeActivity.equals("Hoorcollege")) {
                 int indexRoomSlot = rgen.nextInt(bigRoomslots.size());
@@ -218,13 +213,13 @@ public class Main {
         }
 
         //System.out.println(bigRoomslots);
-        System.out.println(temporaryRoomslots.size());
+        //System.out.println(temporaryRoomslots.size());
         //System.out.println(temporaryRoomslots);
 
 
         //System.out.println(temporaryActivities.size());
 
-        // dit deelt alle activities in roomslots in
+        // dit deelt alle activities uit de overgebleven temporaryActivities in roomslots in
         /* while (temporaryActivities.size() > 0) {
             int indexActivity = rgen.nextInt(temporaryActivities.size());
             int indexRoomSlot = rgen.nextInt(temporaryRoomslots.size());
